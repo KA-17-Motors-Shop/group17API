@@ -10,5 +10,18 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
 
+  api:
+    build: .
+    environment:
+      - PORT=5000
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/app/:rw
+
 volumes:
   dbdata:

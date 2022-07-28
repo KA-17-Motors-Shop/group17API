@@ -2,12 +2,14 @@ FROM node:16-alpine
 
 RUN apk update
 
-WORKDIR /app
+WORKDIR /user/src/app
 
-COPY package.json yarn.lock /app/
+COPY package.json yarn.lock /user/src/app/
 
 RUN yarn
 
 COPY . .
 
-CMD [ "yarn", "dev" ]
+RUN npx prisma generate
+
+CMD [ "yarn", "docker" ]

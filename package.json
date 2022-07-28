@@ -1,12 +1,13 @@
 {
   "name": "group_api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "repository": "git@github.com:KA-17-Motors-Shop/group17API.git",
   "author": "leonardomarchioro <leonardomarchioro11@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
+    "dev": "dotenv -e .env.local nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
+    "docker": "dotenv -e .env nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
     "migrate": "prisma migrate dev"
   },
   "devDependencies": {
