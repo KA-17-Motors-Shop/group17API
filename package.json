@@ -7,8 +7,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "dotenv -e .env.local nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
+    "build": "prisma generate",
+    "start": "node dist/src/index.js",
     "docker": "dotenv -e .env nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
-    "migrate": "prisma migrate dev"
+    "migrate": "dotenv -e .env.local prisma migrate dev",
+    "studio": "dotenv -e .env.local prisma studio"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
