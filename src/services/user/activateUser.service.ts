@@ -20,7 +20,7 @@ const activateUserService = async ({
     data: { isActivate: true, accessToken: null },
   });
 
-  let emailData: IEmailRequest = {
+  const emailData: IEmailRequest = {
     subject: "Obrigado Motor Shop",
     to: user.email,
     text: `

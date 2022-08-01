@@ -1,6 +1,7 @@
 import { Router } from "express";
 import activateUserController from "../../controllers/user/activateUser.controller";
 import createUserController from "../../controllers/user/createUser.controller";
+import recoveryPasswordController from "../../controllers/user/recoveryPassword.controller";
 
 const userRoutes = Router();
 
@@ -11,7 +12,8 @@ userRoutes.get("/"); // Get All
 userRoutes.get("/me"); // Get Me
 userRoutes.patch("/me"); // Update Me
 userRoutes.patch("/password"); // Update password
-userRoutes.get("/reset/password"); // Reset password
+userRoutes.post("/reset/password", recoveryPasswordController); // Reset password
+userRoutes.patch("/reset/password"); // Reset password
 userRoutes.delete("/me"); // Delete Me
 
 export default userRoutes;
