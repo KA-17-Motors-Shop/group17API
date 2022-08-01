@@ -21,6 +21,9 @@ model User {
   description String? @db.VarChar 
   password String @db.VarChar
 
+  isActivate Boolean @db.Boolean @default(false) @map("is_activate")
+  accessToken String @db.VarChar @default("") @map("access_token")
+
   isSeller Boolean @db.Boolean @default(false) @map("is_seller")
 
   adress Address[]
