@@ -1,10 +1,11 @@
 import { Router } from "express";
+import activateUserController from "../../controllers/user/activateUser.controller";
 import createUserController from "../../controllers/user/createUser.controller";
 
 const userRoutes = Router();
 
 userRoutes.post("/signup", createUserController); //Cadastro
-userRoutes.patch("/activate"); //Ativação
+userRoutes.patch("/activate/:accessToken", activateUserController); //Ativação
 userRoutes.post("/signup"); // Login
 userRoutes.get("/"); // Get All
 userRoutes.get("/me"); // Get Me

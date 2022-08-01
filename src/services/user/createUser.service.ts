@@ -50,25 +50,21 @@ const createUserService = async (
     subject: "Ativação de usuário",
     to: email,
     text: `
-      <h1>Olá ${name}</h1>
+      <h1>Olá ${name[0].toUpperCase() + name.substring(1).toLowerCase()}</h1>
       <p>Para usufruir de todas as funcionalidades de nossa plataforma confirme seu email através deste código de acesso</p>
-      <h2>${accessToken}</h2>
+      <h2>${accessToken.toUpperCase()}</h2>
       <a href="${protocol}://${host}/users/activate/${accessToken}">Clique aqui</a>
     `,
   };
 
-  await renderFile(path.join("src/views/activateEmail.ejs"), {
+  await renderFile(path.join("src/views/activateEmail.html"), {
     name: name[0].toUpperCase() + name.substring(1).toLowerCase(),
     protocol,
     host,
     accessToken: accessToken.toUpperCase(),
   })
     .then((result) => {
-      emailData = {
-        subject: "Ativação de usuário",
-        to: email,
-        text: result,
-      };
+      emailData.text = result;
     })
     .catch((err) => console.log(err));
 
