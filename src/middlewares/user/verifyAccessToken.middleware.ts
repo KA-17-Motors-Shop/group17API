@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "src/prisma/client";
+import AppError from "../../errors/appError";
+import { prisma } from "../../prisma/client";
 
 const verifyAccessToken = async (
   req: Request,
@@ -11,7 +12,7 @@ const verifyAccessToken = async (
   const [user] = await prisma.user.findMany({ where: { accessToken } });
 
   if (!user) {
-    return res.json({ status: "error" });
+    throw new AppError(404, "Not Found");
   }
 
   req.userId = user.id;

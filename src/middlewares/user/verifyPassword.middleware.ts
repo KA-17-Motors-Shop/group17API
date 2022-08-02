@@ -1,5 +1,6 @@
 import { compare } from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
+import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 
 const verifyPassword = async (
@@ -9,16 +10,15 @@ const verifyPassword = async (
 ) => {
   const { userId } = req;
   const { currentPassword } = req.body;
-
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
-    return res.json({ status: "error" });
+    throw new AppError(404, "Not Found");
   }
 
   const verify = await compare(currentPassword, user.password);
   if (!verify) {
-    return { status: "error" };
+    throw new AppError(401, "Unathorized");
   }
 
   return next();

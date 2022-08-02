@@ -9,22 +9,12 @@ interface IData {
 const updatePasswordService = async ({ newPassword, userId }: IData) => {
   const hashPassword = await hash(newPassword, 10);
 
-  const user = await prisma.user.update({
+  await prisma.user.update({
     where: { id: userId },
-    data: { password: hashPassword },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      cpf: true,
-      phone: true,
-      birhtDate: true,
-      description: true,
-      isSeller: true,
-    },
+    data: { password: hashPassword, accessToken: null },
   });
 
-  return user;
+  return true;
 };
 
 export default updatePasswordService;

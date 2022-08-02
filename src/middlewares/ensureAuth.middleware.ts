@@ -1,25 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
+import AppError from "../errors/appError";
 import { prisma } from "../prisma/client";
 
 const ensureAuth = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.json({ status: "error" });
+    throw new AppError(401, "Unathorized");
   }
 
   const token = authHeader.split(" ")[1];
 
   if (!token) {
-    return res.json({ status: "error" });
+    throw new AppError(401, "Unathorized");
   }
 
   const secret = process.env.SECRET_KEY;
 
   verify(token, secret, (err, decoded) => {
     if (!decoded) {
-      return res.json({ status: "error" });
+      throw new AppError(401, "Unathorized");
     }
     const { userId } = <any>decoded;
 
@@ -31,7 +32,7 @@ const ensureAuth = async (req: Request, res: Response, next: NextFunction) => {
   });
 
   if (!userExists) {
-    return res.json({ status: "error" });
+    throw new AppError(401, "Unathorized");
   }
 
   return next();

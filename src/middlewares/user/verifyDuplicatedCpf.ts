@@ -3,35 +3,33 @@ import { NextFunction, Request, Response } from "express";
 import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 
-const verifyDuplicatedEmail = async (
+const verifyDuplicatedCpf = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { email } = req.body;
+  const { cpf } = req.body;
   const { userId } = req;
 
   if (!userId) {
     const verify = await prisma.user.findUnique({
       where: {
-        email,
+        cpf,
       },
     });
 
     if (verify) {
-      throw new AppError(409, "Email already exists");
+      throw new AppError(409, "Cpf already exists");
     }
   } else {
-    const users = await prisma.user.findMany({ where: { email } });
+    const users = await prisma.user.findMany({ where: { cpf } });
 
-    if (
-      users.find((user: User) => email === user.email && user.id !== userId)
-    ) {
-      throw new AppError(409, "Email already exists");
+    if (users.find((user: User) => cpf === user.cpf && user.id !== userId)) {
+      throw new AppError(409, "Cpf already exists");
     }
   }
 
   next();
 };
 
-export default verifyDuplicatedEmail;
+export default verifyDuplicatedCpf;

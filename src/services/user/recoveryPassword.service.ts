@@ -1,5 +1,6 @@
 import { renderFile } from "ejs";
 import path from "path";
+import AppError from "../../errors/appError";
 import { IEmailRequest } from "../../interfaces/emails";
 import { prisma } from "../../prisma/client";
 import { sendEmail } from "../../utils/sendEmail.util";
@@ -8,7 +9,7 @@ const recoveryPasswordService = async ({ email }: { email: string }) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    return { status: "error" };
+    throw new AppError(404, "Not Found");
   }
 
   const accessToken = (Math.random() + 10).toString(36).substring(3);

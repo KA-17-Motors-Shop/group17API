@@ -5,9 +5,9 @@ const updatePasswordController = async (req: Request, res: Response) => {
   const { userId } = req;
   const { newPassword } = req.body;
 
-  const updatePassword = await updatePasswordService({ newPassword, userId });
+  await updatePasswordService({ newPassword, userId });
 
-  return res.json(updatePassword);
+  return res.json({ status: "succsess" });
 };
 
 export default updatePasswordController;
