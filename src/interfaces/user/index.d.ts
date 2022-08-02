@@ -8,3 +8,12 @@ export interface ICreateUser {
   password: string;
   isSeller: boolean;
 }
+
+export interface IUpdateUser {
+  name?: string;
+  email?: string;
+  cpf?: string;
+  phone?: string;
+  birhtDate?: string | Date;
+  description?: string;
+}
