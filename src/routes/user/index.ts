@@ -1,17 +1,50 @@
 import { Router } from "express";
+
 import activateUserController from "../../controllers/user/activateUser.controller";
 import createUserController from "../../controllers/user/createUser.controller";
+import deleteUserController from "../../controllers/user/deleteUser.controller";
+import listAllUsersController from "../../controllers/user/listAllUsers.controller";
+import listUserProfileController from "../../controllers/user/listUserProfile.controller";
+import userLoginController from "../../controllers/user/loginUser.controller";
+import recoveryPasswordController from "../../controllers/user/recoveryPassword.controller";
+import updatePasswordController from "../../controllers/user/updatePassword.controller";
+import updateUserController from "../../controllers/user/updateUser.controller";
+
+import ensureAuth from "../../middlewares/ensureAuth.middleware";
+
+import verifyAccessToken from "../../middlewares/user/verifyAccessToken.middleware";
+import verifyDuplicatedCpf from "../../middlewares/user/verifyDuplicatedCpf";
+import verifyDuplicatedEmail from "../../middlewares/user/verifyDuplicatedEmail.middleware";
+import verifyPassword from "../../middlewares/user/verifyPassword.middleware";
 
 const userRoutes = Router();
 
-userRoutes.post("/signup", createUserController); //Cadastro
-userRoutes.patch("/activate/:accessToken", activateUserController); //Ativação
-userRoutes.post("/signup"); // Login
-userRoutes.get("/"); // Get All
-userRoutes.get("/me"); // Get Me
-userRoutes.patch("/me"); // Update Me
-userRoutes.patch("/password"); // Update password
-userRoutes.get("/reset/password"); // Reset password
-userRoutes.delete("/me"); // Delete Me
+userRoutes.post(
+  "/signup",
+  verifyDuplicatedCpf,
+  verifyDuplicatedEmail,
+  createUserController
+);
+userRoutes.patch("/activate/:accessToken", activateUserController);
+userRoutes.post("/signin", userLoginController);
 
+userRoutes.post("/reset/password", recoveryPasswordController);
+userRoutes.patch(
+  "/reset/password/:accessToken",
+  verifyAccessToken,
+  updatePasswordController
+);
+
+userRoutes.use(ensureAuth);
+
+userRoutes.get("/", listAllUsersController);
+userRoutes.get("/me", listUserProfileController);
+userRoutes.patch(
+  "/me",
+  verifyDuplicatedCpf,
+  verifyDuplicatedEmail,
+  updateUserController
+);
+userRoutes.patch("/password", verifyPassword, updatePasswordController);
+userRoutes.delete("/me", deleteUserController);
 export default userRoutes;

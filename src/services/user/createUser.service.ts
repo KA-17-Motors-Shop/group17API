@@ -36,6 +36,7 @@ const createUserService = async (
       accessToken,
     },
     select: {
+      id: true,
       name: true,
       email: true,
       cpf: true,
@@ -57,7 +58,7 @@ const createUserService = async (
     `,
   };
 
-  await renderFile(path.join("src/views/activateEmail.html"), {
+  await renderFile(path.join("src/views/activateEmail.ejs"), {
     name: name[0].toUpperCase() + name.substring(1).toLowerCase(),
     protocol,
     host,

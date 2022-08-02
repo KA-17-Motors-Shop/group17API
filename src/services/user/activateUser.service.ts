@@ -1,5 +1,6 @@
 import { renderFile } from "ejs";
 import path from "path";
+import AppError from "../../errors/appError";
 import { IEmailRequest } from "../../interfaces/emails";
 import { prisma } from "../../prisma/client";
 import { sendEmail } from "../../utils/sendEmail.util";
@@ -12,7 +13,7 @@ const activateUserService = async ({
   const [user] = await prisma.user.findMany({ where: { accessToken } });
 
   if (!user) {
-    return { status: "Error" };
+    throw new AppError(404, "Not Found");
   }
 
   await prisma.user.update({
@@ -20,7 +21,7 @@ const activateUserService = async ({
     data: { isActivate: true, accessToken: null },
   });
 
-  let emailData: IEmailRequest = {
+  const emailData: IEmailRequest = {
     subject: "Obrigado Motor Shop",
     to: user.email,
     text: `
