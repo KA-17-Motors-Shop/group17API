@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import activateUserController from "../../controllers/user/activateUser.controller";
 import createUserController from "../../controllers/user/createUser.controller";
+import deleteUserController from "../../controllers/user/deleteUser.controller";
 import userLoginController from "../../controllers/user/loginUser.controller";
 import recoveryPasswordController from "../../controllers/user/recoveryPassword.controller";
 import updatePasswordController from "../../controllers/user/updatePassword.controller";
@@ -29,6 +30,6 @@ userRoutes.get("/"); // Get All
 userRoutes.get("/me"); // Get Me
 userRoutes.patch("/me", verifyDuplicatedEmail); // Update Me
 userRoutes.patch("/password", verifyPassword, updatePasswordController); // Update password
-userRoutes.delete("/me"); // Delete Me
+userRoutes.delete("/me", deleteUserController); // Delete Me
 
 export default userRoutes;
