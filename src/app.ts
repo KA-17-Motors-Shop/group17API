@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import "express-async-errors";
 
 import errorHandler from "./middlewares/handlerErrors.middleware";
-import userRoutes from "./routes/user";
+import userRoutes from "./routes/user/index.routes";
 
 const app: Express = express();
 
