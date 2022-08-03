@@ -8,15 +8,32 @@ import updateAddressController from "../../controllers/address/updateAddress.con
 import zipCodeExists from "../../middlewares/address/zipCodeExists.middleware";
 import ensureAuth from "../../middlewares/ensureAuth.middleware";
 
+import { expressYupMiddleware } from "express-yup-middleware";
+
+import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
+import createAddressSchema from "../../validations/address/createAddress.validations";
+import updateAddressSchema from "../../validations/address/updateAddress.validations";
+
 const addressRouter = Router();
 
 addressRouter.use(ensureAuth);
 
-addressRouter.post("", zipCodeExists, createAddressController);
+addressRouter.post(
+  "",
+  expressYupMiddleware({ schemaValidator: createAddressSchema }),
+  zipCodeExists,
+  createAddressController
+);
 
 addressRouter.get("", listMyAddressController);
 
-addressRouter.patch("/:id", zipCodeExists, updateAddressController);
-addressRouter.delete("/:id", deleteAddressController);
+addressRouter.patch(
+  "/:id",
+  expressYupMiddleware({ schemaValidator: updateAddressSchema }),
+  verifyIsUuid,
+  zipCodeExists,
+  updateAddressController
+);
+addressRouter.delete("/:id", verifyIsUuid, deleteAddressController);
 
 export default addressRouter;
