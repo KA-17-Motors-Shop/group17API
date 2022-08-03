@@ -7,16 +7,18 @@ const updateUserService = async (
 ) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
-  name = name ? name : user.name;
-  email = email ? email : user.email;
-  phone = phone ? phone : user.phone;
-  birhtDate = birhtDate ? new Date(birhtDate) : user.birhtDate;
-  cpf = cpf ? cpf : user.cpf;
-  description = description ? description : user.description;
+  const data = {
+    name: name ? name : user.name,
+    email: email ? email : user.email,
+    phone: phone ? phone : user.phone,
+    birhtDate: birhtDate ? new Date(birhtDate) : user.birhtDate,
+    cpf: cpf ? cpf : user.cpf,
+    description: description ? description : user.description,
+  };
 
   const updatedUser = await prisma.user.update({
     where: { id: userId },
-    data: { name, email, phone, birhtDate, cpf, description },
+    data,
     select: {
       id: true,
       name: true,

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import createAddressService from "../../services/address/createAddress.service";
 import createUserService from "../../services/user/createUser.service";
 
 const createUserController = async (req: Request, res: Response) => {
@@ -11,6 +12,12 @@ const createUserController = async (req: Request, res: Response) => {
     description,
     password,
     isSeller,
+    zipCode,
+    state,
+    city,
+    street,
+    number,
+    complement,
   } = req.body;
 
   const protocol = req.protocol;
@@ -31,7 +38,19 @@ const createUserController = async (req: Request, res: Response) => {
     host
   );
 
-  return res.status(201).json(newUser);
+  const newAddress = await createAddressService(
+    {
+      zipCode,
+      state,
+      city,
+      street,
+      number,
+      complement,
+    },
+    newUser.id
+  );
+
+  return res.status(201).json({ user: newUser, address: newAddress });
 };
 
 export default createUserController;
