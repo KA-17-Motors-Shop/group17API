@@ -1,4 +1,4 @@
-import { boolean, object, string } from "yup";
+import { boolean, number, object, string } from "yup";
 
 const createUserSchema = {
   schema: {
@@ -26,6 +26,20 @@ const createUserSchema = {
           description: string(),
           password: string().required("password is required"),
           isSeller: boolean().required("isSeller is required"),
+          zipCode: string()
+            .required("zipCode is required")
+            .matches(/^[0-9]{5}-[0-9]{3}$/, "zipCode is invalid"),
+          state: string()
+            .required("state is required")
+            .matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
+          city: string()
+            .required("city is required")
+            .matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
+          street: string().required("street is required"),
+          number: number()
+            .typeError("you must specify a number")
+            .required("number is required"),
+          complement: string(),
         })
         .noUnknown(true),
       validateOptions: {

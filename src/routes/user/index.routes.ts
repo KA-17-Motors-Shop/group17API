@@ -19,6 +19,7 @@ import verifyPassword from "../../middlewares/user/verifyPassword.middleware";
 
 import { expressYupMiddleware } from "express-yup-middleware";
 
+import zipCodeExists from "../../middlewares/address/zipCodeExists.middleware";
 import createUserSchema from "../../validations/user/createUser.validations";
 import loginUserSchema from "../../validations/user/loginUser.validation";
 import {
@@ -32,6 +33,7 @@ const userRoutes = Router();
 userRoutes.post(
   "/signup",
   expressYupMiddleware({ schemaValidator: createUserSchema }),
+  zipCodeExists,
   verifyDuplicatedCpf,
   verifyDuplicatedEmail,
   createUserController
