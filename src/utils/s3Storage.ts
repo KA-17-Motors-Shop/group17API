@@ -38,7 +38,7 @@ class S3Storage {
     await fs.promises.unlink(originalPath);
   }
 
-  async getFile(filename: string) {
+  getFile(filename: string) {
     return `https://${
       process.env.AWS_BUCKET_NAME
     }.s3.sa-east-1.amazonaws.com/${filename.replace(" ", "+")}`;

@@ -19,3 +19,15 @@ enum typeVehicle {
   car = "car",
   motocycle = "motocycle",
 }
+
+export interface IFilterQueryParams {
+  type?: type;
+  typeVehicle?: typeVehicle;
+  title?: string;
+  ltPrice?: string;
+  gtPrice?: string;
+  ltYear?: string;
+  gtrYear?: string;
+  ltDataLimit?: string;
+  gtDataLimit?: string;
+}

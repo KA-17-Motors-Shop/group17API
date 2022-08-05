@@ -1,6 +1,11 @@
 import { Request, Response, Router } from "express";
 
 import createAnnoncementController from "../../controllers/annoncements/createAnnouncement.controller";
+import listAllAnnouncementController from "../../controllers/annoncements/listAllAnnouncement.controller";
+import listAllAnnouncementBySellerIdController from "../../controllers/annoncements/listAllAnnouncementBySellerId.controller";
+import listAnnouncementByIdController from "../../controllers/annoncements/listAnnouncementsById.controller";
+import listMyAnnouncementsController from "../../controllers/annoncements/listMyAnnouncement.controller";
+
 import ensureAuth from "../../middlewares/ensureAuth.middleware";
 import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
 
@@ -13,8 +18,13 @@ const announcementRouter = Router();
 
 const upload = multer(multerConfig);
 
-announcementRouter.get(""); // listar anuncios ( sem autenticação )
-announcementRouter.get("/:id", verifyIsUuid); // listar anuncio ( sem autenticação )
+announcementRouter.get("", listAllAnnouncementController); // listar anuncios ( sem autenticação )
+announcementRouter.get("/:id", verifyIsUuid, listAnnouncementByIdController); // listar anuncio ( sem autenticação )
+announcementRouter.get(
+  "/seller/:id",
+  verifyIsUuid,
+  listAllAnnouncementBySellerIdController
+); // listar anuncios de um vendedor( sem autenticação )
 
 announcementRouter.use(ensureAuth);
 
@@ -24,7 +34,7 @@ announcementRouter.post(
   createAnnoncementController
 ); // Criar anuncio
 
-announcementRouter.get("/me"); // listar meus anuncios ( somente anunciante )
+announcementRouter.get("/me/seller", listMyAnnouncementsController); // listar meus anuncios ( somente anunciante )
 
 announcementRouter.patch("/:id", verifyIsUuid); // atualizar anuncio
 announcementRouter.patch("/status/:id", verifyIsUuid); // alterar status do anuncio ( ativado / desativado )
