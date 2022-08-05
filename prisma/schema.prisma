@@ -29,6 +29,7 @@ model User {
   adress Address[]
   victories Announcement[] @relation(name: "UserWinner")
   sales Announcement[] @relation(name: "UserSeller")
+  bids Bids[] @relation(name: "UserBids")
   
 
   @@map("user")
@@ -73,6 +74,8 @@ model Announcement {
     winner  User?   @relation(fields: [winnerId], name: "UserWinner", references: [id], onDelete: NoAction, onUpdate: NoAction)
     seller  User   @relation(fields: [sellerId], name: "UserSeller", references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+    images Images[] @relation(name: "AnnouncementImages")
+    bids Bids[] @relation(name: "AnnouncementBids")
 
   @@map("announcement")
 }
@@ -85,4 +88,27 @@ enum typeAnnouncement {
 enum typeVehicle {
   car
   motocycle
+}
+
+model Images {
+  id String @id @default(uuid()) @db.Uuid
+
+  fileName String @db.VarChar @map("file_name")
+
+  announcementId String @db.Uuid @map("announcement_id")
+
+  announcement Announcement @relation(fields: [announcementId], name: "AnnouncementImages", references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Bids {
+  id String @id @default(uuid()) @db.Uuid
+
+  value Decimal @db.Decimal(20,2)
+  date DateTime @default(now())
+
+  announcementId String @db.Uuid @map("announcement_id")
+  userId String?  @db.Uuid @map("user_id")
+
+  announcement Announcement @relation(fields: [announcementId], name: "AnnouncementBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user  User?   @relation(fields: [userId], name: "UserBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
