@@ -58,9 +58,9 @@ model Announcement {
     title String @db.VarChar
     description String @db.VarChar
     year Int @db.Integer
-    Km Int @db.Integer
+    km Int @db.Integer
     price Decimal @db.Decimal(20,2)
-    isActivate Boolean @db.Boolean @map("is_activate") 
+    isActive Boolean @db.Boolean @map("is_active") 
 
     type typeAnnouncement
     typeVehicle typeVehicle @map("type_vehicle") 
