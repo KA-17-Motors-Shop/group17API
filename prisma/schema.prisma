@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env( "DATABASE_URL")
 }
 
 model User {
@@ -27,6 +27,10 @@ model User {
   isSeller Boolean @db.Boolean @default(false) @map("is_seller")
 
   adress Address[]
+  victories Announcement[] @relation(name: "UserWinner")
+  sales Announcement[] @relation(name: "UserSeller")
+  bids Bids[] @relation(name: "UserBids")
+  
 
   @@map("user")
 }
@@ -41,9 +45,70 @@ model Address {
   number Int @db.Integer
   complement String? @db.VarChar 
 
-  userId String? @db.Uuid @map("user_id")
+  userId String @db.Uuid @map("user_id")
 
-  users User? @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
  @@map("address")
+}
+
+model Announcement {
+    id String @id @default(uuid()) @db.Uuid
+
+    title String @db.VarChar
+    description String @db.VarChar
+    year Int @db.Integer
+    km Int @db.Integer
+    price Decimal @db.Decimal(20,2)
+    isActive Boolean @db.Boolean @map("is_active") 
+
+    type typeAnnouncement
+    typeVehicle typeVehicle @map("type_vehicle") 
+
+    limitDate DateTime @db.Timestamptz(6) @map("limit_date") 
+    publishedData DateTime @default(now()) @map("published_date") 
+
+    winnerId String?  @db.Uuid @map("winner_id") 
+    sellerId String  @db.Uuid @map("seller_id")
+
+    winner  User?   @relation(fields: [winnerId], name: "UserWinner", references: [id], onDelete: NoAction, onUpdate: NoAction)
+    seller  User   @relation(fields: [sellerId], name: "UserSeller", references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+    images Images[] @relation(name: "AnnouncementImages")
+    bids Bids[] @relation(name: "AnnouncementBids")
+
+  @@map("announcement")
+}
+
+enum typeAnnouncement {
+  auction
+  sale
+}
+
+enum typeVehicle {
+  car
+  motocycle
+}
+
+model Images {
+  id String @id @default(uuid()) @db.Uuid
+
+  fileName String @db.VarChar @map("file_name")
+
+  announcementId String @db.Uuid @map("announcement_id")
+
+  announcement Announcement @relation(fields: [announcementId], name: "AnnouncementImages", references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Bids {
+  id String @id @default(uuid()) @db.Uuid
+
+  value Decimal @db.Decimal(20,2)
+  date DateTime @default(now())
+
+  announcementId String @db.Uuid @map("announcement_id")
+  userId String?  @db.Uuid @map("user_id")
+
+  announcement Announcement @relation(fields: [announcementId], name: "AnnouncementBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user  User?   @relation(fields: [userId], name: "UserBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
