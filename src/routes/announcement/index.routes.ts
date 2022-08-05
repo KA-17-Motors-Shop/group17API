@@ -34,25 +34,6 @@ announcementRouter.delete("/:id"); // deletar anuncio
 /// EXEMPLO DE MANIPULAÇÃO E AWS  \\\
 // const upload = multer(multerConfig);
 
-announcementRouter.post(
-  "/example",
-  upload.array("image"),
-  async (req: Request, res: Response) => {
-    const s3Storage = new S3Storage();
-
-    const files = JSON.parse(JSON.stringify(req.files));
-
-    const promises = files.map(
-      async (file: Express.Multer.File) =>
-        await s3Storage.saveFile(file.filename)
-    );
-
-    await Promise.all(promises);
-
-    return res.send();
-  }
-);
-
 announcementRouter.get(
   "/example/:file",
   async (req: Request, res: Response) => {
