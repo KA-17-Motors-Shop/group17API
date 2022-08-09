@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import cors from "cors";
 import "express-async-errors";
 
 import errorHandler from "./middlewares/handlerErrors.middleware";
@@ -7,6 +8,12 @@ import announcementRouter from "./routes/announcement/index.routes";
 import userRoutes from "./routes/user/index.routes";
 
 const app: Express = express();
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use(express.json());
 
