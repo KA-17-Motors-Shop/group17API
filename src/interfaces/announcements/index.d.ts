@@ -1,13 +1,25 @@
 export interface ICreateAnnouncement {
   title: string;
   description: string;
-  year: number;
-  km: number;
+  year: string;
+  km: string;
   price: float;
   isActive: boolean;
   type: type;
   typeVehicle: typeVehicle;
   limitDate: string;
+}
+
+export interface IUpdateAnnouncement {
+  title?: string;
+  description?: string;
+  year?: string;
+  km?: string;
+  price?: float;
+  isActive?: boolean;
+  type?: type;
+  typeVehicle?: typeVehicle;
+  limitDate?: string;
 }
 
 enum type {

@@ -1,3 +1,4 @@
+import AppError from "../../errors/appError";
 import { IFilterQueryParams } from "../../interfaces/announcements";
 import { prisma } from "../../prisma/client";
 import S3Storage from "../../utils/s3Storage";
@@ -20,14 +21,14 @@ const filterAnnouncementQueryService = async ({
           title: { contains: title },
           limitDate: { lte: ltDataLimit, gte: gtDataLimit },
           price: {
-            lte: ltPrice ? parseFloat(ltPrice) : undefined,
-            gte: gtPrice ? parseFloat(gtPrice) : undefined,
+            lte: ltPrice,
+            gte: gtPrice,
           },
           type: { equals: type },
           typeVehicle: { equals: typeVehicle },
           year: {
-            lte: ltYear ? parseInt(ltYear) : undefined,
-            gte: gtrYear ? parseInt(gtrYear) : undefined,
+            lte: ltYear,
+            gte: gtrYear,
           },
         },
       ],
@@ -48,6 +49,11 @@ const filterAnnouncementQueryService = async ({
       images: { select: { fileName: true } },
     },
   });
+
+  if (!announcements) {
+    throw new AppError(404, "Not Founded");
+  }
+
   const s3Storage = new S3Storage();
   const data = announcements.map((ele) => {
     return {

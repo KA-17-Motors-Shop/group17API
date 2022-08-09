@@ -26,8 +26,8 @@ const createAnnoncementController = async (req: Request, res: Response) => {
     {
       title,
       description,
-      year: parseInt(year),
-      km: parseInt(km),
+      year,
+      km: parseInt(km).toString(),
       price: parseFloat(price),
       isActive: parseBool(isActive),
       type,

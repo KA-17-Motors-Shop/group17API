@@ -1,9 +1,10 @@
+import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 import S3Storage from "../../utils/s3Storage";
 
 const listAnnouncementsBySellerService = async (sellerId: string) => {
   const announcements = await prisma.announcement.findMany({
-    where: { sellerId },
+    where: { sellerId, isActive: true },
     select: {
       id: true,
       title: true,
@@ -19,6 +20,11 @@ const listAnnouncementsBySellerService = async (sellerId: string) => {
       images: { select: { fileName: true } },
     },
   });
+
+  if (!announcements) {
+    throw new AppError(404, "Not Founded");
+  }
+
   const s3Storage = new S3Storage();
   const data = announcements.map((ele) => {
     return {

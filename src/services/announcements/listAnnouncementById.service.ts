@@ -1,3 +1,4 @@
+import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 import S3Storage from "../../utils/s3Storage";
 
@@ -19,6 +20,11 @@ const listAnnouncementsByIdService = async (id: string) => {
       images: { select: { fileName: true } },
     },
   });
+
+  if (!announcements) {
+    throw new AppError(404, "Not Founded");
+  }
+
   const s3Storage = new S3Storage();
   const data = {
     id: announcements.id,

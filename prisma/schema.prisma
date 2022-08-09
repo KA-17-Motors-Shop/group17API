@@ -57,8 +57,8 @@ model Announcement {
 
     title String @db.VarChar
     description String @db.VarChar
-    year Int @db.Integer
-    km Int @db.Integer
+    year String @db.VarChar
+    km String @db.VarChar
     price Decimal @db.Decimal(20,2)
     isActive Boolean @db.Boolean @map("is_active") 
 
@@ -98,6 +98,7 @@ model Images {
   announcementId String @db.Uuid @map("announcement_id")
 
   announcement Announcement @relation(fields: [announcementId], name: "AnnouncementImages", references: [id], onDelete: Cascade, onUpdate: NoAction)
+    @@map("images")
 }
 
 model Bids {
@@ -111,4 +112,5 @@ model Bids {
 
   announcement Announcement @relation(fields: [announcementId], name: "AnnouncementBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
   user  User?   @relation(fields: [userId], name: "UserBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
+    @@map("bids")
 }

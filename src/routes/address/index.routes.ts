@@ -13,6 +13,7 @@ import { expressYupMiddleware } from "express-yup-middleware";
 import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
 import createAddressSchema from "../../validations/address/createAddress.validations";
 import updateAddressSchema from "../../validations/address/updateAddress.validations";
+import verifyIsActiveUser from "../../middlewares/verifyIsActiveUser.middleware";
 
 const addressRouter = Router();
 
@@ -21,7 +22,9 @@ addressRouter.use(ensureAuth);
 addressRouter.post(
   "",
   expressYupMiddleware({ schemaValidator: createAddressSchema }),
+  verifyIsActiveUser,
   zipCodeExists,
+
   createAddressController
 );
 

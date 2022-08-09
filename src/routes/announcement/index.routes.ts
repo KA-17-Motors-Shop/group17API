@@ -1,18 +1,32 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+
+import ensureAuth from "../../middlewares/ensureAuth.middleware";
+import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
+import verifyIsSeller from "../../middlewares/announcement/verifyIsSeller";
+import verifyIsOwner from "../../middlewares/announcement/verifyIsOwner";
+import verifyIsActiveUser from "../../middlewares/verifyIsActiveUser.middleware";
+
+import multer from "multer";
+import multerConfig from "../../config/multer";
 
 import createAnnoncementController from "../../controllers/annoncements/createAnnouncement.controller";
 import listAllAnnouncementController from "../../controllers/annoncements/listAllAnnouncement.controller";
 import listAllAnnouncementBySellerIdController from "../../controllers/annoncements/listAllAnnouncementBySellerId.controller";
 import listAnnouncementByIdController from "../../controllers/annoncements/listAnnouncementsById.controller";
 import listMyAnnouncementsController from "../../controllers/annoncements/listMyAnnouncement.controller";
+import deleteAnnouncementController from "../../controllers/annoncements/deleteAnnouncement.controller";
+import updateAnnouncementController from "../../controllers/annoncements/updateAnnouncement.controller";
+import deleteImageController from "../../controllers/annoncements/deleteImage.controller";
+import changeStatusController from "../../controllers/annoncements/changeStatus.controller";
 
-import ensureAuth from "../../middlewares/ensureAuth.middleware";
-import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
-
-// Imports para o AWS
-import multer from "multer";
-import multerConfig from "../../config/multer";
-import S3Storage from "../../utils/s3Storage";
+import {
+  createAnnouncementSchema,
+  validateAnnouncement,
+} from "../../validations/announcement/createAnnouncement.validations";
+import {
+  UpdateAnnouncementSchema,
+  validateAnnouncementUpdate,
+} from "../../validations/announcement/updateAnnouncement.validations";
 
 const announcementRouter = Router();
 
@@ -30,42 +44,46 @@ announcementRouter.use(ensureAuth);
 
 announcementRouter.post(
   "",
+  verifyIsSeller,
+  verifyIsActiveUser,
   upload.fields([{ name: "images", maxCount: 5 }]),
+  validateAnnouncement(createAnnouncementSchema),
+
   createAnnoncementController
 ); // Criar anuncio
 
-announcementRouter.get("/me/seller", listMyAnnouncementsController); // listar meus anuncios ( somente anunciante )
-
-announcementRouter.patch("/:id", verifyIsUuid); // atualizar anuncio
-announcementRouter.patch("/status/:id", verifyIsUuid); // alterar status do anuncio ( ativado / desativado )
-
-announcementRouter.delete("/:id"); // deletar anuncio
-
-/// EXEMPLO DE MANIPULAÇÃO E AWS  \\\
-// const upload = multer(multerConfig);
-
 announcementRouter.get(
-  "/example/:file",
-  async (req: Request, res: Response) => {
-    const s3Storage = new S3Storage();
+  "/me/seller",
+  verifyIsSeller,
+  listMyAnnouncementsController
+); // listar meus anuncios ( somente anunciante )
 
-    const { file } = req.params;
-
-    const fileUrl = await s3Storage.getFile(file);
-    return res.json(fileUrl);
-  }
-);
+announcementRouter.patch(
+  "/:id",
+  upload.fields([{ name: "images", maxCount: 5 }]),
+  verifyIsUuid,
+  verifyIsOwner,
+  validateAnnouncementUpdate(UpdateAnnouncementSchema),
+  updateAnnouncementController
+); // atualizar anuncio
+announcementRouter.patch(
+  "/status/:id",
+  verifyIsUuid,
+  verifyIsOwner,
+  changeStatusController
+); // alterar status do anuncio ( ativado / desativado )
 
 announcementRouter.delete(
-  "/example/:file",
-  async (req: Request, res: Response) => {
-    const s3Storage = new S3Storage();
-
-    const { file } = req.params;
-
-    await s3Storage.deleteFile(file);
-    return res.send();
-  }
-);
+  "/:id",
+  verifyIsUuid,
+  verifyIsOwner,
+  deleteAnnouncementController
+); // deletar anuncio
+announcementRouter.delete(
+  "/:id/:fileName",
+  verifyIsUuid,
+  verifyIsOwner,
+  deleteImageController
+); // deletar imagem
 
 export default announcementRouter;
