@@ -10,7 +10,6 @@ interface ICreateAnnouncementValidate {
   isActive: boolean;
   type: string;
   typeVehicle: string;
-  limitDate: string;
 }
 
 export const createAnnouncementSchema: SchemaOf<ICreateAnnouncementValidate> =
@@ -25,12 +24,6 @@ export const createAnnouncementSchema: SchemaOf<ICreateAnnouncementValidate> =
     km: string()
       .required("km is required")
       .matches(/(\d+)| /g, "km is invalid"),
-    limitDate: string()
-      .required("limitDate is required")
-      .test(
-        (dateString) => new Date(dateString!).toString() !== "Invalid Date"
-      ),
-
     price: string()
       .required("price is required")
       .matches(/(\d+)| /g, "price is invalid")

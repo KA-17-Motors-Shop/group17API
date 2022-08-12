@@ -6,7 +6,6 @@ const createAnnouncementService = async (
     description,
     isActive,
     km,
-    limitDate,
     price,
     title,
     type,
@@ -15,12 +14,15 @@ const createAnnouncementService = async (
   }: ICreateAnnouncement,
   userId: string
 ) => {
+  const date = new Date().setHours(new Date().getHours() + 5);
+  const limitDate = type === "auction" && isActive ? new Date(date) : undefined;
+
   const newAnnouncement = await prisma.announcement.create({
     data: {
       description,
       isActive,
       km,
-      limitDate: new Date(limitDate),
+      limitDate,
       price,
       title,
       type,

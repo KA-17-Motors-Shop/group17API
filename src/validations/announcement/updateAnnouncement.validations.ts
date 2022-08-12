@@ -9,7 +9,6 @@ interface IUpdateAnnouncementValidate {
   price?: string;
   type?: string;
   typeVehicle?: string;
-  limitDate?: string;
 }
 
 export const UpdateAnnouncementSchema: SchemaOf<IUpdateAnnouncementValidate> =
@@ -18,10 +17,6 @@ export const UpdateAnnouncementSchema: SchemaOf<IUpdateAnnouncementValidate> =
     description: string(),
     year: string().matches(/^\d{4}$/, "year is invalid"),
     km: string().matches(/(\d+)| /g, "km is invalid"),
-    limitDate: string().test(
-      (dateString) => new Date(dateString!).toString() !== "Invalid Date"
-    ),
-
     price: string()
       .matches(/(\d+)| /g, "price is invalid")
       .test((priceString) => parseFloat(priceString) !== NaN),

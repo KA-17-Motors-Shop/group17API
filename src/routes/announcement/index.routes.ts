@@ -27,6 +27,7 @@ import {
   UpdateAnnouncementSchema,
   validateAnnouncementUpdate,
 } from "../../validations/announcement/updateAnnouncement.validations";
+import verifyIsCompledet from "src/middlewares/announcement/verifyIsCompleted";
 
 const announcementRouter = Router();
 
@@ -63,6 +64,7 @@ announcementRouter.patch(
   upload.fields([{ name: "images", maxCount: 5 }]),
   verifyIsUuid,
   verifyIsOwner,
+  verifyIsCompledet,
   validateAnnouncementUpdate(UpdateAnnouncementSchema),
   updateAnnouncementController
 ); // atualizar anuncio
@@ -70,6 +72,7 @@ announcementRouter.patch(
   "/status/:id",
   verifyIsUuid,
   verifyIsOwner,
+  verifyIsCompledet,
   changeStatusController
 ); // alterar status do anuncio ( ativado / desativado )
 
@@ -77,12 +80,14 @@ announcementRouter.delete(
   "/:id",
   verifyIsUuid,
   verifyIsOwner,
+  verifyIsCompledet,
   deleteAnnouncementController
 ); // deletar anuncio
 announcementRouter.delete(
   "/:id/:fileName",
   verifyIsUuid,
   verifyIsOwner,
+  verifyIsCompledet,
   deleteImageController
 ); // deletar imagem
 
