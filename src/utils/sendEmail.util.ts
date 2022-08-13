@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { createTransport } from "nodemailer";
+import AppError from "../errors/appError";
 import { IEmailRequest } from "../interfaces/emails";
-// import { AppError } from "../errors/AppError";
 
 const sendEmail = async ({ subject, text, to }: IEmailRequest) => {
   const transporter = createTransport({
@@ -22,11 +22,11 @@ const sendEmail = async ({ subject, text, to }: IEmailRequest) => {
       html: text,
     })
     .then(() => {
-      console.log("Email send with success");
+      console.log("Email enviado com sucesso");
     })
     .catch((err) => {
       console.log(err);
-      // throw new AppError("Error sending email, try again later", 500)
+      throw new AppError(500, "Error ao enviar email, tente novamente");
     });
 };
 

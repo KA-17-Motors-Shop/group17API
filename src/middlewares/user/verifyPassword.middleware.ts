@@ -13,12 +13,12 @@ const verifyPassword = async (
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
-    throw new AppError(404, "Not Found");
+    throw new AppError(404, "Não encontrado");
   }
 
   const verify = await compare(currentPassword, user.password);
   if (!verify) {
-    throw new AppError(401, "Unathorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   return next();

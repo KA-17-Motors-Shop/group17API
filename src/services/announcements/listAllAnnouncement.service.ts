@@ -4,7 +4,7 @@ import S3Storage from "../../utils/s3Storage";
 
 const listAllAnnouncementService = async () => {
   const announcements = await prisma.announcement.findMany({
-    where: { isActive: true },
+    where: { isActive: true, status: "in_progress" },
     select: {
       id: true,
       title: true,
@@ -17,6 +17,7 @@ const listAllAnnouncementService = async () => {
       publishedData: true,
       limitDate: true,
       sellerId: true,
+      bids: true,
       images: { select: { fileName: true } },
     },
   });
@@ -39,6 +40,7 @@ const listAllAnnouncementService = async () => {
       publishedData: ele.publishedData,
       limitDate: ele.limitDate,
       sellerId: ele.sellerId,
+      bids: ele.bids,
       imagesUrl: ele.images.map((img) => {
         return s3Storage.getFile(img.fileName);
       }),

@@ -6,9 +6,9 @@ const loginUserSchema = {
       yupSchema: object()
         .shape({
           email: string()
-            .required("email is required")
-            .email("Invalid email format"),
-          password: string().required("password is required"),
+            .required("Email é obrigatório")
+            .email("Email é inválido"),
+          password: string().required("Senha é obrigatório"),
         })
         .noUnknown(true),
       validateOptions: {

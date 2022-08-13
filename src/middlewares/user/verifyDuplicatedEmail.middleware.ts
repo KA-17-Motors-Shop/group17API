@@ -19,7 +19,7 @@ const verifyDuplicatedEmail = async (
     });
 
     if (verify) {
-      throw new AppError(409, "Email already exists");
+      throw new AppError(409, "Email já cadastrado");
     }
   } else {
     const users = await prisma.user.findMany({ where: { email } });
@@ -27,7 +27,7 @@ const verifyDuplicatedEmail = async (
     if (
       users.find((user: User) => email === user.email && user.id !== userId)
     ) {
-      throw new AppError(409, "Email already exists");
+      throw new AppError(409, "Email já cadastrado");
     }
   }
 

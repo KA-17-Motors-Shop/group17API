@@ -4,17 +4,7 @@ import saveImagesAnnouncementService from "../../services/announcements/saveImag
 import updateAnnouncementService from "../../services/announcements/updateAnnouncement.service";
 
 const updateAnnouncementController = async (req: Request, res: Response) => {
-  const {
-    title,
-    description,
-    year,
-    km,
-    price,
-    isActive,
-    type,
-    typeVehicle,
-    limitDate,
-  } = req.body;
+  const { title, description, year, km, price, type, typeVehicle } = req.body;
   const { id } = req.params;
 
   const updateAnnouncement = await updateAnnouncementService(
@@ -26,7 +16,6 @@ const updateAnnouncementController = async (req: Request, res: Response) => {
       price: parseFloat(price) || undefined,
       type,
       typeVehicle,
-      limitDate,
     },
     id
   );

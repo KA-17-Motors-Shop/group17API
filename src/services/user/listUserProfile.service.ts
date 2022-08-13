@@ -12,6 +12,7 @@ const listUserProfilteService = async (userId: string) => {
       phone: true,
       description: true,
       isSeller: true,
+      isActivate: true,
     },
   });
 };

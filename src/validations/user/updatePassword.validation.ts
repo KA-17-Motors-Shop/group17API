@@ -5,8 +5,8 @@ const updatePasswordUserSchema = {
     body: {
       yupSchema: object()
         .shape({
-          newPassword: string().required("new password is required"),
-          currentPassword: string().required("current password is required"),
+          newPassword: string().required("Uma nova senha é obrigatório"),
+          currentPassword: string().required("Senha antiga é obrigatório"),
         })
         .noUnknown(true),
       validateOptions: {
@@ -22,7 +22,7 @@ const resetPasswordUserSchema = {
     body: {
       yupSchema: object()
         .shape({
-          newPassword: string().required("password is required"),
+          newPassword: string().required("Senha é obrigatório"),
         })
         .noUnknown(true),
       validateOptions: {

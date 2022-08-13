@@ -12,7 +12,7 @@ const verifyAccessToken = async (
   const [user] = await prisma.user.findMany({ where: { accessToken } });
 
   if (!user) {
-    throw new AppError(404, "Not Found");
+    throw new AppError(404, "Não encontrado");
   }
 
   req.userId = user.id;

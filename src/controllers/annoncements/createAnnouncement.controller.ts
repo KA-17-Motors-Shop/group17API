@@ -6,17 +6,8 @@ import createAnnouncementService from "../../services/announcements/createAnnoun
 
 const createAnnoncementController = async (req: Request, res: Response) => {
   const { userId } = req;
-  const {
-    title,
-    description,
-    year,
-    km,
-    price,
-    isActive,
-    type,
-    typeVehicle,
-    limitDate,
-  } = req.body;
+  const { title, description, year, km, price, isActive, type, typeVehicle } =
+    req.body;
 
   const parseBool = (value: string) => {
     return ["true", "false"].includes(value) ? value === "true" : null;
@@ -32,7 +23,6 @@ const createAnnoncementController = async (req: Request, res: Response) => {
       isActive: parseBool(isActive),
       type,
       typeVehicle,
-      limitDate,
     },
     userId
   );

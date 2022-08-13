@@ -7,20 +7,20 @@ const ensureAuth = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    throw new AppError(401, "Unathorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   const token = authHeader.split(" ")[1];
 
   if (!token) {
-    throw new AppError(401, "Unathorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   const secret = process.env.SECRET_KEY;
 
   verify(token, secret, (err, decoded) => {
     if (!decoded) {
-      throw new AppError(401, "Unathorized");
+      throw new AppError(401, "Não autorizado");
     }
     const { userId } = <any>decoded;
 
@@ -32,7 +32,7 @@ const ensureAuth = async (req: Request, res: Response, next: NextFunction) => {
   });
 
   if (!userExists) {
-    throw new AppError(401, "Unathorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   return next();

@@ -6,39 +6,39 @@ const createUserSchema = {
       yupSchema: object()
         .shape({
           name: string()
-            .required("name is required")
-            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "Must contain only letters"),
+            .required("Nome é obrigatório")
+            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
           email: string()
-            .required("email is required")
-            .email("Invalid email format"),
+            .required("Email é obrigatório")
+            .email("Email é inválido"),
           cpf: string()
-            .required("Phone is required")
-            .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF is invalid"),
+            .required("CPF é obrigatório")
+            .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF é inválido"),
           phone: string()
-            .required("Phone is required")
-            .matches(/(\(\d{2}\)\s)(\d{4,5}-\d{4})/g, "Phone is invalid"),
+            .required("Telefone é obrigatório")
+            .matches(/(\(\d{2}\)\s)(\d{4,5}-\d{4})/g, "Telefone inválido"),
           birhtDate: string()
-            .required("birhtDate is required")
+            .required("Data de nascimento é obrigatório")
             .test(
               (dateString) =>
                 new Date(dateString!).toString() !== "Invalid Date"
             ),
           description: string(),
-          password: string().required("password is required"),
-          isSeller: boolean().required("isSeller is required"),
+          password: string().required("Senha é obrigatório"),
+          isSeller: boolean().required("Campo obrigatório"),
           zipCode: string()
-            .required("zipCode is required")
-            .matches(/^[0-9]{5}-[0-9]{3}$/, "zipCode is invalid"),
+            .required("Cep é obrigatório")
+            .matches(/^[0-9]{5}-[0-9]{3}$/, "O cep é inválido"),
           state: string()
-            .required("state is required")
-            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "Must contain only letters"),
+            .required("Estado é obrigatório")
+            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
           city: string()
-            .required("city is required")
-            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "Must contain only letters"),
-          street: string().required("street is required"),
+            .required("Cidade é obrigatório")
+            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+          street: string().required("A rua é obrigatória"),
           number: number()
-            .typeError("you must specify a number")
-            .required("number is required"),
+            .typeError("São aceitos somente números")
+            .required("Número é obrigatório"),
           complement: string(),
         })
         .noUnknown(true),
