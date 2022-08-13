@@ -9,6 +9,7 @@ import userLoginController from "../../controllers/user/loginUser.controller";
 import recoveryPasswordController from "../../controllers/user/recoveryPassword.controller";
 import updatePasswordController from "../../controllers/user/updatePassword.controller";
 import updateUserController from "../../controllers/user/updateUser.controller";
+import recoveryNewCodeActivateController from "../../controllers/user/recoveryNewCodeActivate.controller";
 
 import ensureAuth from "../../middlewares/ensureAuth.middleware";
 
@@ -54,6 +55,8 @@ userRoutes.patch(
 );
 
 userRoutes.use(ensureAuth);
+
+userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
 userRoutes.get("/", listAllUsersController);
 userRoutes.get("/me", listUserProfileController);
