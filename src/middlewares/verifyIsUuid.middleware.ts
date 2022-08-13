@@ -12,6 +12,6 @@ const verifyIsUuid = async (
   if (UUIDv4.validate(id)) {
     return next();
   }
-  throw new AppError(400, "Id format is invalid");
+  throw new AppError(400, "Busca por id inválida");
 };
 export default verifyIsUuid;

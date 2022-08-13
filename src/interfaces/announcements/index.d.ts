@@ -7,7 +7,6 @@ export interface ICreateAnnouncement {
   isActive: boolean;
   type: type;
   typeVehicle: typeVehicle;
-  limitDate: string;
 }
 
 export interface IUpdateAnnouncement {
@@ -19,7 +18,6 @@ export interface IUpdateAnnouncement {
   isActive?: boolean;
   type?: type;
   typeVehicle?: typeVehicle;
-  limitDate?: string;
 }
 
 enum type {

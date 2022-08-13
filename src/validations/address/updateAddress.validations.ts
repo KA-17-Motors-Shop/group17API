@@ -5,14 +5,14 @@ const updateAddressSchema = {
     body: {
       yupSchema: object()
         .shape({
-          zipCode: string().matches(
-            /^[0-9]{5}-[0-9]{3}$/,
-            "zipCode is invalid"
+          zipCode: string().matches(/^[0-9]{5}-[0-9]{3}$/, "O cep é inválido"),
+          state: string().matches(
+            /^([a-zA-Z]+)$/,
+            "São aceitos somente letras"
           ),
-          state: string().matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
-          city: string().matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
-          street: string().required("street is required"),
-          number: number().typeError("you must specify a number"),
+          city: string().matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+          street: string(),
+          number: number().typeError("São aceitos somente números"),
           complement: string(),
         })
         .noUnknown(true),

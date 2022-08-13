@@ -46,6 +46,9 @@ const filterAnnouncementQueryService = async ({
       publishedData: true,
       limitDate: true,
       sellerId: true,
+      bids: true,
+      isActive: true,
+      status: true,
       images: { select: { fileName: true } },
     },
   });
@@ -68,6 +71,9 @@ const filterAnnouncementQueryService = async ({
       publishedData: ele.publishedData,
       limitDate: ele.limitDate,
       sellerId: ele.sellerId,
+      bids: ele.bids,
+      isActive: ele.isActive,
+      status: ele.status,
       imagesUrl: ele.images.map((img) => {
         return s3Storage.getFile(img.fileName);
       }),

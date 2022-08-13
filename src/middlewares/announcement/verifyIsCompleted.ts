@@ -2,12 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 
-const verifyIsOwner = async (
+const verifyIsCompledet = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req;
   const { id } = req.params;
 
   const announcement = await prisma.announcement.findUnique({ where: { id } });
@@ -16,11 +15,11 @@ const verifyIsOwner = async (
     throw new AppError(404, "Não encontrado");
   }
 
-  if (announcement.sellerId !== userId) {
-    throw new AppError(401, "Não autorizado");
+  if (announcement.status === "completed") {
+    throw new AppError(409, "Este anúncio já foi finalizado");
   }
 
   return next();
 };
 
-export default verifyIsOwner;
+export default verifyIsCompledet;

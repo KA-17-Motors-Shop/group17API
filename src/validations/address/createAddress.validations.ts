@@ -6,18 +6,18 @@ const createAddressSchema = {
       yupSchema: object()
         .shape({
           zipCode: string()
-            .required("zipCode is required")
-            .matches(/^[0-9]{5}-[0-9]{3}$/, "zipCode is invalid"),
+            .required("Cep é obrigatório")
+            .matches(/^[0-9]{5}-[0-9]{3}$/, "O cep é inválido"),
           state: string()
-            .required("state is required")
-            .matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
+            .required("Estado é obrigatório")
+            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
           city: string()
-            .required("city is required")
-            .matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
-          street: string().required("street is required"),
+            .required("Cidade é obrigatório")
+            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+          street: string().required("A rua é obrigatória"),
           number: number()
-            .typeError("you must specify a number")
-            .required("number is required"),
+            .typeError("São aceitos somente números")
+            .required("Número é obrigatório"),
           complement: string(),
         })
         .noUnknown(true),

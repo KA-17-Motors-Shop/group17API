@@ -24,11 +24,11 @@ const zipCodeExists = async (
         return next();
       }
 
-      throw new AppError(404, "Zip code not found");
+      throw new AppError(404, "CEP inválido");
     })
     .catch((err) => {
       console.log(err);
-      throw new AppError(404, "Zip code not found");
+      throw new AppError(404, "CEP inválido");
     });
 };
 

@@ -17,6 +17,9 @@ const listAnnouncementsByIdService = async (id: string) => {
       publishedData: true,
       limitDate: true,
       sellerId: true,
+      bids: true,
+      isActive: true,
+      status: true,
       images: { select: { fileName: true } },
     },
   });
@@ -38,6 +41,9 @@ const listAnnouncementsByIdService = async (id: string) => {
     publishedData: announcements.publishedData,
     limitDate: announcements.limitDate,
     sellerId: announcements.sellerId,
+    bids: announcements.bids,
+    isActive: announcements.isActive,
+    status: announcements.status,
     imagesUrl: announcements.images.map((img) => {
       return s3Storage.getFile(img.fileName);
     }),

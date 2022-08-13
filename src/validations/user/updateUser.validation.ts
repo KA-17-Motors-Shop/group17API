@@ -5,15 +5,15 @@ const updateUserSchema = {
     body: {
       yupSchema: object()
         .shape({
-          name: string().matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
-          email: string().email("Invalid email format"),
+          name: string().matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+          email: string().email("Email é inválido"),
           cpf: string().matches(
             /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,
-            "CPF is invalid"
+            "CPF é inválido"
           ),
           phone: string().matches(
-            /^\d{2}\ \d{2}\ \d{4,5}\-\d{4}$/,
-            "Phone is invalid"
+            /(\(\d{2}\)\s)(\d{4,5}-\d{4})/g,
+            "Telefone inválido"
           ),
           birhtDate: string().test(
             (dateString) => new Date(dateString!).toString() !== "Invalid Date"

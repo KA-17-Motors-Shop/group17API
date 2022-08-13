@@ -64,8 +64,9 @@ model Announcement {
 
     type typeAnnouncement
     typeVehicle typeVehicle @map("type_vehicle") 
+    status status @default(in_progress)
 
-    limitDate DateTime @db.Timestamptz(6) @map("limit_date") 
+    limitDate DateTime? @db.Timestamptz(6) @map("limit_date") 
     publishedData DateTime @default(now()) @map("published_date") 
 
     winnerId String?  @db.Uuid @map("winner_id") 
@@ -78,6 +79,12 @@ model Announcement {
     bids Bids[] @relation(name: "AnnouncementBids")
 
   @@map("announcement")
+}
+
+enum status {
+  in_progress
+  completed
+  stopped
 }
 
 enum typeAnnouncement {
