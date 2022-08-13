@@ -9,9 +9,11 @@ const changeStatusService = async (id: string) => {
       ? new Date(date)
       : undefined;
 
+  const status = !announcement.isActive ? "in_progress" : "stopped";
+
   await prisma.announcement.update({
     where: { id },
-    data: { isActive: !announcement.isActive, limitDate },
+    data: { isActive: !announcement.isActive, limitDate, status },
   });
 };
 

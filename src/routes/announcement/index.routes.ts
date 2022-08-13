@@ -5,6 +5,7 @@ import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
 import verifyIsSeller from "../../middlewares/announcement/verifyIsSeller";
 import verifyIsOwner from "../../middlewares/announcement/verifyIsOwner";
 import verifyIsActiveUser from "../../middlewares/verifyIsActiveUser.middleware";
+import verifyIsCompledet from "../../middlewares/announcement/verifyIsCompleted";
 
 import multer from "multer";
 import multerConfig from "../../config/multer";
@@ -27,11 +28,16 @@ import {
   UpdateAnnouncementSchema,
   validateAnnouncementUpdate,
 } from "../../validations/announcement/updateAnnouncement.validations";
-import verifyIsCompledet from "src/middlewares/announcement/verifyIsCompleted";
+
+import auctionFinishObserver from "../../observer/auctionFinish.observer";
+import auctionWinnerObserver from "../../observer/auctionWinner.observer";
 
 const announcementRouter = Router();
 
 const upload = multer(multerConfig);
+
+announcementRouter.use(auctionWinnerObserver);
+announcementRouter.use(auctionFinishObserver);
 
 announcementRouter.get("", listAllAnnouncementController); // listar anuncios ( sem autenticação )
 announcementRouter.get("/:id", verifyIsUuid, listAnnouncementByIdController); // listar anuncio ( sem autenticação )
