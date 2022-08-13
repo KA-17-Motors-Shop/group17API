@@ -12,11 +12,11 @@ const verifyIsActiveUser = async (
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
-    throw new AppError(401, "Unauthorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   if (!user.isActivate) {
-    throw new AppError(401, "Unauthorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   return next();

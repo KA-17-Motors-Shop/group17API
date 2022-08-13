@@ -13,12 +13,12 @@ interface IUpdateAnnouncementValidate {
 
 export const UpdateAnnouncementSchema: SchemaOf<IUpdateAnnouncementValidate> =
   object().shape({
-    title: string().matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
+    title: string().matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
     description: string(),
-    year: string().matches(/^\d{4}$/, "year is invalid"),
-    km: string().matches(/(\d+)| /g, "km is invalid"),
+    year: string().matches(/^\d{4}$/, "Ano inválido"),
+    km: string().matches(/(\d+)| /g, "KM inválido"),
     price: string()
-      .matches(/(\d+)| /g, "price is invalid")
+      .matches(/(\d+)| /g, "Preço inválido")
       .test((priceString) => parseFloat(priceString) !== NaN),
     type: string().oneOf(["auction", "sale"]),
     typeVehicle: string().oneOf(["car", "motocycle"]),

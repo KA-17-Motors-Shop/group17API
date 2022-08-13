@@ -13,11 +13,11 @@ const verifyIsOwner = async (
   const announcement = await prisma.announcement.findUnique({ where: { id } });
 
   if (!announcement) {
-    throw new AppError(404, "Not Founded");
+    throw new AppError(404, "Não encontrado");
   }
 
   if (announcement.sellerId !== userId) {
-    throw new AppError(401, "Unauthorized");
+    throw new AppError(401, "Não autorizado");
   }
 
   return next();

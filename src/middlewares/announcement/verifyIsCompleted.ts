@@ -12,11 +12,11 @@ const verifyIsCompledet = async (
   const announcement = await prisma.announcement.findUnique({ where: { id } });
 
   if (!announcement) {
-    throw new AppError(404, "Not Founded");
+    throw new AppError(404, "Não encontrado");
   }
 
   if (announcement.status === "completed") {
-    throw new AppError(409, "This announcement has been completed");
+    throw new AppError(409, "Este anúncio já foi finalizado");
   }
 
   return next();

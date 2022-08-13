@@ -15,23 +15,25 @@ interface ICreateAnnouncementValidate {
 export const createAnnouncementSchema: SchemaOf<ICreateAnnouncementValidate> =
   object().shape({
     title: string()
-      .required("title is required")
-      .matches(/^([a-zA-Z]+)$/, "Must contain only letters"),
-    description: string().required("description is required"),
+      .required("Titúlo é obrigatório")
+      .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+    description: string().required("Descrição é obrigatório"),
     year: string()
-      .required("year is required")
-      .matches(/^\d{4}$/, "year is invalid"),
+      .required("Ano é obrigatório")
+      .matches(/^\d{4}$/, "Ano inválido"),
     km: string()
-      .required("km is required")
-      .matches(/(\d+)| /g, "km is invalid"),
+      .required("KM é obrigatório")
+      .matches(/(\d+)| /g, "KM inválido"),
     price: string()
-      .required("price is required")
-      .matches(/(\d+)| /g, "price is invalid")
+      .required("preço é obrigatório")
+      .matches(/(\d+)| /g, "Preço inválido")
       .test((priceString) => parseFloat(priceString) !== NaN),
-    isActive: boolean().required("isActive is required"),
-    type: string().required("type is required").oneOf(["auction", "sale"]),
+    isActive: boolean().required("Campo obrigatório"),
+    type: string()
+      .required("Tipo de anúncio é obrigatório")
+      .oneOf(["auction", "sale"]),
     typeVehicle: string()
-      .required("typeVehicle is required")
+      .required("Tipo de veículo é obrigatório")
       .oneOf(["car", "motocycle"]),
   });
 

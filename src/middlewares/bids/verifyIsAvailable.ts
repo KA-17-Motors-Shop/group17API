@@ -12,11 +12,11 @@ const verifyIsAvailable = async (
   const announcement = await prisma.announcement.findUnique({ where: { id } });
 
   if (!announcement) {
-    throw new AppError(404, "Not Founded!");
+    throw new AppError(404, "Não autorizado");
   }
 
   if (announcement.status !== "in_progress") {
-    throw new AppError(409, "Announce not available");
+    throw new AppError(409, "Anúncio indisponível");
   }
 
   return next();

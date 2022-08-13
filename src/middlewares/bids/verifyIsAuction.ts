@@ -12,11 +12,11 @@ const verifyIsAuction = async (
   const announcement = await prisma.announcement.findUnique({ where: { id } });
 
   if (!announcement) {
-    throw new AppError(404, "Not Founded!");
+    throw new AppError(404, "Não encontrado");
   }
 
   if (announcement.type !== "auction") {
-    throw new AppError(409, "Announce not available");
+    throw new AppError(409, "Anúncio indisponível");
   }
 
   return next();

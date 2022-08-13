@@ -19,13 +19,13 @@ const verifyDuplicatedCpf = async (
     });
 
     if (verify) {
-      throw new AppError(409, "Cpf already exists");
+      throw new AppError(409, "CPF já cadastrado");
     }
   } else {
     const users = await prisma.user.findMany({ where: { cpf } });
 
     if (users.find((user: User) => cpf === user.cpf && user.id !== userId)) {
-      throw new AppError(409, "Cpf already exists");
+      throw new AppError(409, "CPF já cadastrado");
     }
   }
 
