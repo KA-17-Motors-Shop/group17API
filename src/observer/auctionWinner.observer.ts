@@ -14,7 +14,6 @@ const auctionWinnerObserver = async (
       isActive: { equals: true },
     },
   });
-
   const promises = dataBids.map(async (announcement) => {
     const bids = await prisma.bids.findMany({
       where: { announcementId: announcement.id },
@@ -28,6 +27,10 @@ const auctionWinnerObserver = async (
     bids.forEach((bid) => {
       winner = winner.value < bid.value ? bid : winner;
     });
+
+    if (!winner) {
+      return false;
+    }
 
     return await prisma.announcement.update({
       where: { id: announcement.id },
