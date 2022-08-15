@@ -13,7 +13,7 @@ const activateUserService = async ({
   const [user] = await prisma.user.findMany({ where: { accessToken } });
 
   if (!user) {
-    throw new AppError(404, "Not Found");
+    throw new AppError(400, "Código inválido");
   }
 
   await prisma.user.update({
@@ -22,7 +22,7 @@ const activateUserService = async ({
   });
 
   const emailData: IEmailRequest = {
-    subject: "Obrigado Motor Shop",
+    subject: "Obrigado, da equipe Motor Shop",
     to: user.email,
     text: `
       <h1>Obrigado por se juntar a nossa plataforma</h1>

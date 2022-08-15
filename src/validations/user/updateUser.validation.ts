@@ -5,7 +5,10 @@ const updateUserSchema = {
     body: {
       yupSchema: object()
         .shape({
-          name: string().matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+          name: string().matches(
+            /[a-zA-Z\u00C0-\u00FF ]+/i,
+            "São aceitos somente letras"
+          ),
           email: string().email("Email é inválido"),
           cpf: string().matches(
             /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/,

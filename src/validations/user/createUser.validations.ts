@@ -7,7 +7,7 @@ const createUserSchema = {
         .shape({
           name: string()
             .required("Nome é obrigatório")
-            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "São aceitos somente letras"),
           email: string()
             .required("Email é obrigatório")
             .email("Email é inválido"),

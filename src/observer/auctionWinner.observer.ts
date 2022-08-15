@@ -29,10 +29,6 @@ const auctionWinnerObserver = async (
       winner = winner.value < bid.value ? bid : winner;
     });
 
-    if (!winner) {
-      return false;
-    }
-
     return await prisma.announcement.update({
       where: { id: announcement.id },
       data: { status: "completed", isActive: false, winnerId: winner.userId },
