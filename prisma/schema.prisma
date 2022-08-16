@@ -30,6 +30,7 @@ model User {
   victories Announcement[] @relation(name: "UserWinner")
   sales Announcement[] @relation(name: "UserSeller")
   bids Bids[] @relation(name: "UserBids")
+  comments Comments[] @relation(name: "UserComments")
   
 
   @@map("user")
@@ -79,6 +80,8 @@ model Announcement {
 
     images Images[] @relation(name: "AnnouncementImages")
     bids Bids[] @relation(name: "AnnouncementBids")
+    comments Comments[] @relation(name: "AnnouncementComments") 
+
 
   @@map("announcement")
 }
@@ -107,7 +110,8 @@ model Images {
   announcementId String @db.Uuid @map("announcement_id")
 
   announcement Announcement @relation(fields: [announcementId], name: "AnnouncementImages", references: [id], onDelete: Cascade, onUpdate: NoAction)
-    @@map("images")
+  
+  @@map("images")
 }
 
 model Bids {
@@ -121,5 +125,22 @@ model Bids {
 
   announcement Announcement @relation(fields: [announcementId], name: "AnnouncementBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
   user  User?   @relation(fields: [userId], name: "UserBids", references: [id], onDelete: Cascade, onUpdate: NoAction)
-    @@map("bids")
+
+  @@map("bids")
+}
+
+model Comments {
+    id String @id @default(uuid()) @db.Uuid
+
+    comment String @db.VarChar
+    publishedData DateTime @default(now()) @map("published_date") 
+
+    announcementId String @db.Uuid @map("announcement_id")
+    userId String?  @db.Uuid @map("user_id")
+
+    announcement Announcement @relation(fields: [announcementId], name: "AnnouncementComments", references: [id], onDelete: Cascade, onUpdate: NoAction)
+    user  User?   @relation(fields: [userId], name: "UserComments", references: [id], onDelete: Cascade, onUpdate: NoAction)
+    
+    @@map("comments")
+
 }
