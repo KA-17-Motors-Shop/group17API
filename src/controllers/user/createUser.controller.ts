@@ -20,23 +20,16 @@ const createUserController = async (req: Request, res: Response) => {
     complement,
   } = req.body;
 
-  const protocol = req.protocol;
-  const host = req.get("host");
-
-  const newUser = await createUserService(
-    {
-      name,
-      email,
-      cpf,
-      phone,
-      birhtDate,
-      description,
-      password,
-      isSeller,
-    },
-    protocol,
-    host
-  );
+  const newUser = await createUserService({
+    name,
+    email,
+    cpf,
+    phone,
+    birhtDate,
+    description,
+    password,
+    isSeller,
+  });
 
   const newAddress = await createAddressService(
     {
@@ -46,6 +39,7 @@ const createUserController = async (req: Request, res: Response) => {
       street,
       number,
       complement,
+      mainAddress: true,
     },
     newUser.id
   );

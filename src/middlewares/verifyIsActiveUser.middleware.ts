@@ -16,7 +16,7 @@ const verifyIsActiveUser = async (
   }
 
   if (!user.isActivate) {
-    throw new AppError(401, "Não autorizado");
+    throw new AppError(401, "Ative seu usário para continuar");
   }
 
   return next();

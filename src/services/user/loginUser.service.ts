@@ -12,12 +12,12 @@ const loginUserService = async ({ email, password }: ILogin) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    throw new AppError(404, "Wrong email or password");
+    throw new AppError(404, "Email ou senha incorretos");
   }
 
   const verify = await compare(password, user.password);
   if (!verify) {
-    throw new AppError(404, "Wrong email or password");
+    throw new AppError(404, "Email ou senha incorretos");
   }
 
   const token = signJWT({ userId: user.id }, String(process.env.SECRET_KEY), {

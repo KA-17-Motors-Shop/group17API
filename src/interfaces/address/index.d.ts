@@ -5,6 +5,7 @@ export interface ICreateAddress {
   street: string;
   number: number;
   complement?: string;
+  mainAddress?: boolean;
 }
 
 export interface IUpdateAddress {

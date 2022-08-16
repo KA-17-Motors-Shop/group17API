@@ -44,6 +44,8 @@ model Address {
   street String @db.VarChar
   number Int @db.Integer
   complement String? @db.VarChar 
+  mainAddress Boolean @map("main_Adress") @db.Boolean @default(false)
+
 
   userId String @db.Uuid @map("user_id")
 

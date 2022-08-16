@@ -2,7 +2,15 @@ import { ICreateAddress } from "../../interfaces/address";
 import { prisma } from "../../prisma/client";
 
 const createAddressService = async (
-  { zipCode, state, city, street, number, complement }: ICreateAddress,
+  {
+    zipCode,
+    state,
+    city,
+    street,
+    number,
+    complement,
+    mainAddress,
+  }: ICreateAddress,
   userId: string
 ) => {
   const newAddress = await prisma.address.create({
@@ -14,6 +22,7 @@ const createAddressService = async (
       number,
       complement,
       userId,
+      mainAddress,
     },
   });
 

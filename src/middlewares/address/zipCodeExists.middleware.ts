@@ -17,7 +17,6 @@ const zipCodeExists = async (
   await axios
     .get(`http://viacep.com.br/ws/${zipCode.replace("-", "")}/json/`)
     .then((res) => {
-      console.log(res.data);
       const { erro } = res.data;
 
       if (!erro) {
