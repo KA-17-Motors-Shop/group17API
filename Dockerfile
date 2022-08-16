@@ -12,4 +12,4 @@ COPY . .
 
 RUN npx prisma generate
 
-CMD [ "yarn", "docker" ]
+CMD [ "yarn", "dev" ]

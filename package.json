@@ -6,7 +6,7 @@
   "author": "leonardomarchioro <leonardomarchioro11@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env.local nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
+    "dev": "dotenv -e .env nodemon -r tsconfig-paths/register --transpile-only --ignore node_modules src/index.ts",
     "build": "tsc",
     "start": "node dist/src/index.js",
     "migrate": "dotenv -e .env prisma migrate dev",

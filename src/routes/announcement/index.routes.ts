@@ -39,13 +39,13 @@ const upload = multer(multerConfig);
 announcementRouter.use(auctionWinnerObserver);
 announcementRouter.use(auctionFinishObserver);
 
-announcementRouter.get("", listAllAnnouncementController); // listar anuncios ( sem autenticação )
-announcementRouter.get("/:id", verifyIsUuid, listAnnouncementByIdController); // listar anuncio ( sem autenticação )
+announcementRouter.get("", listAllAnnouncementController);
+announcementRouter.get("/:id", verifyIsUuid, listAnnouncementByIdController);
 announcementRouter.get(
   "/seller/:id",
   verifyIsUuid,
   listAllAnnouncementBySellerIdController
-); // listar anuncios de um vendedor( sem autenticação )
+);
 
 announcementRouter.use(ensureAuth);
 
@@ -57,14 +57,13 @@ announcementRouter.post(
   validateAnnouncement(createAnnouncementSchema),
 
   createAnnoncementController
-); // Criar anuncio
+);
 
 announcementRouter.get(
   "/me/seller",
   verifyIsSeller,
   listMyAnnouncementsController
-); // listar meus anuncios ( somente anunciante )
-
+);
 announcementRouter.patch(
   "/:id",
   upload.fields([{ name: "images", maxCount: 5 }]),
@@ -73,28 +72,27 @@ announcementRouter.patch(
   verifyIsCompledet,
   validateAnnouncementUpdate(UpdateAnnouncementSchema),
   updateAnnouncementController
-); // atualizar anuncio
+);
 announcementRouter.patch(
   "/status/:id",
   verifyIsUuid,
   verifyIsOwner,
   verifyIsCompledet,
   changeStatusController
-); // alterar status do anuncio ( ativado / desativado )
-
+);
 announcementRouter.delete(
   "/:id",
   verifyIsUuid,
   verifyIsOwner,
   verifyIsCompledet,
   deleteAnnouncementController
-); // deletar anuncio
+);
 announcementRouter.delete(
   "/:id/:fileName",
   verifyIsUuid,
   verifyIsOwner,
   verifyIsCompledet,
   deleteImageController
-); // deletar imagem
+);
 
 export default announcementRouter;
