@@ -13,7 +13,10 @@ interface IUpdateAnnouncementValidate {
 
 export const UpdateAnnouncementSchema: SchemaOf<IUpdateAnnouncementValidate> =
   object().shape({
-    title: string().matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+    title: string().matches(
+      /[a-zA-Z\u00C0-\u00FF ]+/i,
+      "São aceitos somente letras"
+    ),
     description: string(),
     year: string().matches(/^\d{4}$/, "Ano inválido"),
     km: string().matches(/(\d+)| /g, "KM inválido"),

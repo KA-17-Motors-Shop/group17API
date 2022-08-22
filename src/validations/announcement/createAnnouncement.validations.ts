@@ -16,7 +16,7 @@ export const createAnnouncementSchema: SchemaOf<ICreateAnnouncementValidate> =
   object().shape({
     title: string()
       .required("Titúlo é obrigatório")
-      .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+      .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "São aceitos somente letras"),
     description: string().required("Descrição é obrigatório"),
     year: string()
       .required("Ano é obrigatório")
