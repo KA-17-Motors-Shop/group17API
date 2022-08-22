@@ -9,6 +9,7 @@ import verifyIsAvailable from "../../middlewares/bids/verifyIsAvailable";
 import ensureAuth from "../../middlewares/ensureAuth.middleware";
 import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
 import verifyIsActiveUser from "../../middlewares/verifyIsActiveUser.middleware";
+import verifyLastValues from "../../middlewares/bids/verifyLastValue";
 
 import auctionWinnerObserver from "../../observer/auctionWinner.observer";
 import auctionFinishObserver from "../../observer/auctionFinish.observer";
@@ -26,6 +27,7 @@ bidsRouter.post(
   verifyIsAvailable,
   verifyIsAuction,
   verifyIsActiveUser,
+  verifyLastValues,
   createBidsController
 );
 

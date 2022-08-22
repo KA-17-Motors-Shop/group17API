@@ -9,6 +9,10 @@ const changeStatusService = async (id: string) => {
       ? new Date(date)
       : undefined;
 
+  if (announcement.isActive) {
+    await prisma.bids.deleteMany({ where: { announcementId: id } });
+  }
+
   const status = !announcement.isActive ? "in_progress" : "stopped";
 
   await prisma.announcement.update({

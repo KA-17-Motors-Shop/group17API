@@ -1,4 +1,5 @@
 import aws, { S3 } from "aws-sdk";
+import axios from "axios";
 import fs from "fs";
 import mime from "mime";
 import path from "path";
@@ -38,10 +39,19 @@ class S3Storage {
     await fs.promises.unlink(originalPath);
   }
 
-  getFile(filename: string) {
-    return `https://${
+  async getFile(filename: string) {
+    const urlFile = `https://${
       process.env.AWS_BUCKET_NAME
     }.s3.sa-east-1.amazonaws.com/${filename.replace(" ", "+")}`;
+
+    return await axios
+      .get(urlFile)
+      .then((res) => {
+        if (res.status === 200) {
+          return urlFile;
+        }
+      })
+      .catch((_) => {});
   }
 
   async deleteFile(filename: string): Promise<void> {

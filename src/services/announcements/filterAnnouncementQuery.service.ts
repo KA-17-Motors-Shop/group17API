@@ -58,7 +58,7 @@ const filterAnnouncementQueryService = async ({
   }
 
   const s3Storage = new S3Storage();
-  const data = announcements.map((ele) => {
+  const data = announcements.map(async (ele) => {
     return {
       id: ele.id,
       title: ele.title,
@@ -72,15 +72,15 @@ const filterAnnouncementQueryService = async ({
       limitDate: ele.limitDate,
       sellerId: ele.sellerId,
       bids: ele.bids,
-      isActive: ele.isActive,
-      status: ele.status,
-      imagesUrl: ele.images.map((img) => {
-        return s3Storage.getFile(img.fileName);
-      }),
+      imagesUrl: await Promise.all(
+        ele.images.map(async (img) => {
+          return await s3Storage.getFile(img.fileName);
+        })
+      ),
     };
   });
 
-  return data;
+  return await Promise.all(data);
 };
 
 export default filterAnnouncementQueryService;
