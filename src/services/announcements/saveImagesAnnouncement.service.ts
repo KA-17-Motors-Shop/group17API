@@ -30,10 +30,8 @@ const saveImagesAnnouncementService = async (
           fileName: true,
         },
       });
-
-      return s3Storage.getFile(file.filename);
     }
   );
-  return await Promise.all(promises);
+  await Promise.all(promises);
 };
 export default saveImagesAnnouncementService;

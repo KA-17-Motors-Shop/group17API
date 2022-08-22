@@ -28,11 +28,7 @@ const createAnnoncementController = async (req: Request, res: Response) => {
   );
 
   if (JSON.parse(JSON.stringify(req.files)).images) {
-    const images = await saveImagesAnnouncementService(
-      req.files,
-      newAnnouncement.id
-    );
-    return res.json({ ...newAnnouncement, imagesUrls: images });
+    await saveImagesAnnouncementService(req.files, newAnnouncement.id);
   }
 
   return res.json(newAnnouncement);

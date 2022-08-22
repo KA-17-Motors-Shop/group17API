@@ -44,9 +44,11 @@ const listAnnouncementsByIdService = async (id: string) => {
     bids: announcements.bids,
     isActive: announcements.isActive,
     status: announcements.status,
-    imagesUrl: announcements.images.map((img) => {
-      return s3Storage.getFile(img.fileName);
-    }),
+    imagesUrl: await Promise.all(
+      announcements.images.map(async (img) => {
+        return await s3Storage.getFile(img.fileName);
+      })
+    ),
   };
 
   return data;
