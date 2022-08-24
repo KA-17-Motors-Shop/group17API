@@ -15,7 +15,7 @@ const createAnnoncementController = async (req: Request, res: Response) => {
 
   const newAnnouncement = await createAnnouncementService(
     {
-      title,
+      title: title.toLowerCase(),
       description,
       year,
       km: parseInt(km).toString(),

@@ -18,7 +18,7 @@ const filterAnnouncementQueryService = async ({
     where: {
       AND: [
         {
-          title: { contains: title },
+          title: { contains: title && title.toLowerCase() },
           limitDate: { lte: ltDataLimit, gte: gtDataLimit },
           price: {
             lte: ltPrice,
