@@ -28,5 +28,12 @@ services:
       retries: 5
       start_period: 5m
 
+  tests:
+    image: postgres:latest
+    env_file:
+      - ./.env.test
+    ports:
+      - 45432:5432
+
 volumes:
   dbdata:
