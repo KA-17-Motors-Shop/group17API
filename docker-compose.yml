@@ -30,8 +30,11 @@ services:
 
   tests:
     image: postgres:latest
-    env_file:
-      - ./.env.test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=motorshoptest
+      - SECRET_KEY=motorshopkey
     ports:
       - 45432:5432
 

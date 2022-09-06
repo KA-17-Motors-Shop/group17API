@@ -2,7 +2,7 @@ import { beforeEach, beforeAll, afterAll } from "@jest/globals";
 import { prisma } from "../../src/prisma/client";
 import { clearDatabase } from "./clearDatabase";
 
-export async function connectDatabase() {
+export function connectDatabase() {
   beforeAll(async () => {
     await prisma.$connect();
     await clearDatabase();

@@ -4,6 +4,10 @@ import AppError from "../errors/appError";
 import { IEmailRequest } from "../interfaces/emails";
 
 const sendEmail = async ({ subject, text, to }: IEmailRequest) => {
+  if (process.env.TEST) {
+    return true;
+  }
+
   const transporter = createTransport({
     host: "smtp.office365.com",
     port: 587,
