@@ -60,6 +60,7 @@ userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
 userRoutes.get("/", listAllUsersController);
 userRoutes.get("/me", listUserProfileController);
+
 userRoutes.patch(
   "/me",
   expressYupMiddleware({ schemaValidator: updateUserSchema }),

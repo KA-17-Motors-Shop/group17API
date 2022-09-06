@@ -1,5 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import { connectDatabase } from "../utils/connect";
+
 import app from "../../src/app";
 import { UserRequests } from "../utils/userRequests";
 
@@ -36,7 +36,7 @@ const addressData = {
 };
 
 export const userTests = async () => {
-  describe("User routes 'Successs tests'", () => {
+  describe("Successs tests", () => {
     it("Should create a user", async () => {
       const { response } = await userRequests.createUser(userData, addressData);
       const { status, body } = response;
@@ -47,9 +47,32 @@ export const userTests = async () => {
       expect(body).toHaveProperty("address");
       expect(body.user).not.toHaveProperty("password");
     });
+
+    it("Should login user", async () => {
+      const { response } = await userRequests.loginUser(userData, addressData);
+      const { status, body } = response;
+
+      expect(status).toBe(200);
+      expect(body).toBeDefined();
+      expect(body).toHaveProperty("token");
+    });
+
+    it("Should list user", async () => {
+      const { response } = await userRequests.listUser(userData, addressData);
+      const { status, body } = response;
+
+      expect(status).toBe(200);
+      expect(body).toBeDefined();
+      expect(body.id).toBeDefined();
+      expect(body.name).toBe(userData.name);
+    });
+
+    it("Should update user", async () => {});
+
+    it("Should delete user", async () => {});
   });
 
-  describe("User routes 'Error tests'", () => {
+  describe("Error tests", () => {
     it("Try create a user with duplicate CPF", async () => {
       const { response } = await userRequests.createUserError(
         userData,
@@ -93,6 +116,30 @@ export const userTests = async () => {
       expect(body).toHaveProperty("errors");
       expect(body.errors).toHaveProperty("body");
       expect(body.errors.body).toHaveLength(7);
+    });
+
+    it("Try login user with wrong password", async () => {
+      const { response } = await userRequests.loginUserError(
+        userData,
+        addressData
+      );
+      const { status, body } = response;
+
+      expect(status).toBe(404);
+      expect(body).toBeDefined();
+      expect(body).toHaveProperty("status");
+      expect(body.status).toBe("error");
+      expect(body.message).toBe("Email ou senha incorretos");
+    });
+
+    it("Try list user without authorization", async () => {
+      const { response } = await userRequests.listUserError();
+      const { status, body } = response;
+
+      expect(status).toBe(404);
+      expect(body).toBeDefined();
+      expect(body.message).toBeDefined();
+      expect(body.message).toBe("Não autorizado");
     });
   });
 };

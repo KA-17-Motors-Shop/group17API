@@ -28,4 +28,41 @@ export class UserRequests {
       .send({ ...userTwoData, ...addressData });
     return { response };
   }
+
+  async loginUser(userData: ICreateUser, addressData: ICreateAddress) {
+    await this.createUser(userData, addressData);
+
+    const response = await request(this.app)
+      .post("/users/signin")
+      .send({ email: userData.email, password: userData.password });
+    return { response };
+  }
+
+  async loginUserError(userData: ICreateUser, addressData: ICreateAddress) {
+    await this.createUser(userData, addressData);
+
+    const response = await request(this.app)
+      .post("/users/signin")
+      .send({ email: userData.email, password: "wrong" });
+    return { response };
+  }
+
+  async listUser(userData: ICreateUser, addressData: ICreateAddress) {
+    const login = await this.loginUser(userData, addressData);
+    const { token } = login.response.body;
+
+    const response = await request(this.app)
+      .get("users/me")
+      .set("Authorization", `Bearer ${token}`);
+
+    return { response, token };
+  }
+
+  async listUserError() {
+    const response = await request(this.app)
+      .get("users/me")
+      .set("Authorization", `Bearer wrongToken`);
+
+    return { response };
+  }
 }

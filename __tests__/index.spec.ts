@@ -1,7 +1,6 @@
 import { describe, beforeAll, beforeEach, afterAll } from "@jest/globals";
 import { userTests } from "./tests/userModel";
 import { clearDatabase } from "./utils/clearDatabase";
-import { connectDatabase } from "./utils/connect";
 import { prisma } from "../src/prisma/client";
 
 beforeAll(async () => {
@@ -19,5 +18,7 @@ afterAll(async () => {
 });
 
 describe("Routers Tests \n", () => {
-  userTests();
+  describe("User routers test \n", () => {
+    userTests();
+  });
 });
