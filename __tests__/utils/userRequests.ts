@@ -1,6 +1,6 @@
 import request from "supertest";
 import { Express } from "express";
-import { ICreateUser } from "src/interfaces/user";
+import { ICreateUser, IUpdateUser } from "src/interfaces/user";
 import { ICreateAddress } from "src/interfaces/address";
 
 export class UserRequests {
@@ -52,7 +52,7 @@ export class UserRequests {
     const { token } = login.response.body;
 
     const response = await request(this.app)
-      .get("users/me")
+      .get("/users/me")
       .set("Authorization", `Bearer ${token}`);
 
     return { response, token };
@@ -60,8 +60,39 @@ export class UserRequests {
 
   async listUserError() {
     const response = await request(this.app)
-      .get("users/me")
+      .get("/users/me")
       .set("Authorization", `Bearer wrongToken`);
+
+    return { response };
+  }
+
+  async updateUser(
+    userData: ICreateUser,
+    addressData: ICreateAddress,
+    updateData: IUpdateUser
+  ) {
+    const { token } = await this.listUser(userData, addressData);
+
+    const response = await request(this.app)
+      .patch("/users/me")
+      .send(updateData)
+      .set("Authorization", `Bearer ${token}`);
+
+    return { response };
+  }
+
+  async updateUserError(
+    userData: ICreateUser,
+    addressData: ICreateAddress,
+    userDataTwo: ICreateUser
+  ) {
+    await this.createUser(userData, addressData);
+    const { token } = await this.listUser(userDataTwo, addressData);
+    console.log(token);
+    const response = await request(this.app)
+      .patch("/users/me")
+      .send({ email: userData.email })
+      .set("Authorization", `Bearer ${token}`);
 
     return { response };
   }

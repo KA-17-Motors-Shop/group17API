@@ -30,7 +30,6 @@ const sendEmail = async ({ subject, text, to }: IEmailRequest) => {
     })
     .catch((err) => {
       console.log(err);
-      throw new AppError(500, "Error ao enviar email, tente novamente");
     });
 };
 

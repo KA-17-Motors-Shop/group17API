@@ -18,9 +18,7 @@ const updateUserSchema = {
             /(\(\d{2}\)\s)(\d{4,5}-\d{4})/g,
             "Telefone inválido"
           ),
-          birhtDate: string().test(
-            (dateString) => new Date(dateString!).toString() !== "Invalid Date"
-          ),
+          birhtDate: string(),
           description: string(),
         })
         .noUnknown(true),

@@ -10,7 +10,7 @@ const userData = {
   email: "teste@email.com",
   cpf: "111.222.333-44",
   phone: "(00) 99999-0000",
-  birhtDate: "01/01/2000",
+  birhtDate: "2000/01/01",
   description: "",
   password: "testePassword",
   isSeller: false,
@@ -18,10 +18,10 @@ const userData = {
 
 const userTwoData = {
   name: "Teste",
-  email: "teste@email.com",
+  email: "teste2@email.com",
   cpf: "999.888.777-66",
   phone: "(00) 99999-0000",
-  birhtDate: "01/01/2000",
+  birhtDate: "2000/01/01/",
   description: "",
   password: "testePassword",
   isSeller: false,
@@ -67,7 +67,19 @@ export const userTests = async () => {
       expect(body.name).toBe(userData.name);
     });
 
-    it("Should update user", async () => {});
+    it("Should update user", async () => {
+      const { response } = await userRequests.updateUser(
+        userData,
+        addressData,
+        { name: "UpdateTeste" }
+      );
+      const { status, body } = response;
+
+      expect(status).toBe(200);
+      expect(body).toBeDefined();
+      expect(body.id).toBeDefined();
+      expect(body.name).toBe("UpdateTeste");
+    });
 
     it("Should delete user", async () => {});
   });
@@ -136,10 +148,25 @@ export const userTests = async () => {
       const { response } = await userRequests.listUserError();
       const { status, body } = response;
 
-      expect(status).toBe(404);
+      expect(status).toBe(401);
       expect(body).toBeDefined();
       expect(body.message).toBeDefined();
       expect(body.message).toBe("Não autorizado");
+    });
+
+    it("Try update user sending duplicated email", async () => {
+      const { response } = await userRequests.updateUserError(
+        userData,
+        addressData,
+        userTwoData
+      );
+      const { status, body } = response;
+      console.log(body);
+
+      expect(status).toBe(409);
+      expect(body).toBeDefined();
+      expect(body.message).toBeDefined();
+      expect(body.message).toBe("Email já cadastrado");
     });
   });
 };
