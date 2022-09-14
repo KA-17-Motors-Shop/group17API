@@ -88,7 +88,6 @@ export class UserRequests {
   ) {
     await this.createUser(userData, addressData);
     const { token } = await this.listUser(userDataTwo, addressData);
-    console.log(token);
     const response = await request(this.app)
       .patch("/users/me")
       .send({ email: userData.email })
