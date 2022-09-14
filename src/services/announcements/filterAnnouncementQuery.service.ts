@@ -18,7 +18,7 @@ const filterAnnouncementQueryService = async ({
     where: {
       AND: [
         {
-          title: { contains: title },
+          title: { contains: title && title.toLowerCase() },
           limitDate: { lte: ltDataLimit, gte: gtDataLimit },
           price: {
             lte: ltPrice,
@@ -45,7 +45,7 @@ const filterAnnouncementQueryService = async ({
       typeVehicle: true,
       publishedData: true,
       limitDate: true,
-      sellerId: true,
+      seller: { select: { name: true, id: true } },
       bids: true,
       isActive: true,
       status: true,
@@ -70,7 +70,7 @@ const filterAnnouncementQueryService = async ({
       typeVehicle: ele.typeVehicle,
       publishedData: ele.publishedData,
       limitDate: ele.limitDate,
-      sellerId: ele.sellerId,
+      seller: ele.seller,
       bids: ele.bids,
       imagesUrl: await Promise.all(
         ele.images.map(async (img) => {

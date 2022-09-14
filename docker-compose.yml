@@ -14,14 +14,29 @@ services:
     build: .
     environment:
       - PORT=5000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/motorshopdb?schema=public
     ports:
       - 5000:5000
     env_file:
       - ./.env
     depends_on:
       - postgres
-    volumes:
-      - ./:/app/:rw
+    healthcheck:
+      test: psql -U $POSTGRES_USER $POSTGRES_DB || exit 1
+      interval: 1s
+      timeout: 5s
+      retries: 5
+      start_period: 5m
+
+  tests:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=motorshoptest
+      - SECRET_KEY=motorshopkey
+    ports:
+      - 55432:5432
 
 volumes:
   dbdata:

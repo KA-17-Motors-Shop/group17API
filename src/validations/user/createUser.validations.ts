@@ -17,12 +17,7 @@ const createUserSchema = {
           phone: string()
             .required("Telefone é obrigatório")
             .matches(/(\(\d{2}\)\s)(\d{4,5}-\d{4})/g, "Telefone inválido"),
-          birhtDate: string()
-            .required("Data de nascimento é obrigatório")
-            .test(
-              (dateString) =>
-                new Date(dateString!).toString() !== "Invalid Date"
-            ),
+          birhtDate: string().required("Data de nascimento é obrigatório"),
           description: string(),
           password: string().required("Senha é obrigatório"),
           isSeller: boolean().required("Campo obrigatório"),

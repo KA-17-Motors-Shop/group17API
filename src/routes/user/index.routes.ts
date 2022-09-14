@@ -17,6 +17,7 @@ import verifyAccessToken from "../../middlewares/user/verifyAccessToken.middlewa
 import verifyDuplicatedCpf from "../../middlewares/user/verifyDuplicatedCpf";
 import verifyDuplicatedEmail from "../../middlewares/user/verifyDuplicatedEmail.middleware";
 import verifyPassword from "../../middlewares/user/verifyPassword.middleware";
+import verifyBirhtDate from "../../middlewares/user/verifyBirhtDate";
 
 import { expressYupMiddleware } from "express-yup-middleware";
 
@@ -37,6 +38,7 @@ userRoutes.post(
   zipCodeExists,
   verifyDuplicatedCpf,
   verifyDuplicatedEmail,
+  verifyBirhtDate,
   createUserController
 );
 userRoutes.patch("/activate/:accessToken", activateUserController);
@@ -60,11 +62,13 @@ userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
 userRoutes.get("/", listAllUsersController);
 userRoutes.get("/me", listUserProfileController);
+
 userRoutes.patch(
   "/me",
   expressYupMiddleware({ schemaValidator: updateUserSchema }),
   verifyDuplicatedCpf,
   verifyDuplicatedEmail,
+  verifyBirhtDate,
   updateUserController
 );
 userRoutes.patch(

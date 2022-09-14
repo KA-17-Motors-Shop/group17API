@@ -16,7 +16,7 @@ const listAllAnnouncementService = async () => {
       typeVehicle: true,
       publishedData: true,
       limitDate: true,
-      sellerId: true,
+      seller: { select: { name: true, id: true } },
       bids: true,
       images: { select: { fileName: true } },
     },
@@ -40,7 +40,7 @@ const listAllAnnouncementService = async () => {
       typeVehicle: ele.typeVehicle,
       publishedData: ele.publishedData,
       limitDate: ele.limitDate,
-      sellerId: ele.sellerId,
+      seller: ele.seller,
       bids: ele.bids,
       imagesUrl: await Promise.all(
         ele.images.map(async (img) => {
