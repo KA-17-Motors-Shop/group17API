@@ -1,10 +1,39 @@
+import { IFilterQueryParams } from "../../interfaces/announcements";
 import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 import S3Storage from "../../utils/s3Storage";
 
-const listAllAnnouncementService = async () => {
+const listAllAnnouncementService = async ({
+  ltDataLimit,
+  gtDataLimit,
+  gtPrice,
+  ltPrice,
+  title,
+  type,
+  typeVehicle,
+  gtrYear,
+  ltYear,
+}: IFilterQueryParams) => {
   const announcements = await prisma.announcement.findMany({
-    where: { isActive: true, status: "in_progress" },
+    where: {
+      AND: [
+        {
+          title: { contains: title && title.toLowerCase() },
+          limitDate: { lte: ltDataLimit, gte: gtDataLimit },
+          price: {
+            lte: ltPrice,
+            gte: gtPrice,
+          },
+          type: { equals: type },
+          typeVehicle: { equals: typeVehicle },
+          year: {
+            lte: ltYear,
+            gte: gtrYear,
+          },
+        },
+      ],
+      isActive: true,
+    },
     select: {
       id: true,
       title: true,
@@ -18,6 +47,8 @@ const listAllAnnouncementService = async () => {
       limitDate: true,
       seller: { select: { name: true, id: true } },
       bids: true,
+      isActive: true,
+      status: true,
       images: { select: { fileName: true } },
     },
   });
@@ -27,7 +58,6 @@ const listAllAnnouncementService = async () => {
   }
 
   const s3Storage = new S3Storage();
-
   const data = announcements.map(async (ele) => {
     return {
       id: ele.id,

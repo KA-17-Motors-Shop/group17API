@@ -1,10 +1,14 @@
+import { IFilterQueryParams } from "../../interfaces/announcements";
 import AppError from "../../errors/appError";
 import { prisma } from "../../prisma/client";
 import S3Storage from "../../utils/s3Storage";
 
-const listAnnouncementsBySellerService = async (sellerId: string) => {
+const listAnnouncementsBySellerService = async (
+  sellerId: string,
+  { type }: IFilterQueryParams
+) => {
   const announcements = await prisma.announcement.findMany({
-    where: { sellerId },
+    where: { sellerId, type: { equals: type } },
     select: {
       id: true,
       title: true,

@@ -5,7 +5,10 @@ const listAllAnnouncementBySellerIdController = async (
   req: Request,
   res: Response
 ) => {
-  const annoncements = await listAnnouncementsBySellerService(req.params.id);
+  const annoncements = await listAnnouncementsBySellerService(
+    req.params.id,
+    req.query
+  );
 
   return res.json(annoncements);
 };
