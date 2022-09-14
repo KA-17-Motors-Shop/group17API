@@ -46,6 +46,8 @@ const listAnnouncementsBySellerService = async (
       publishedData: ele.publishedData,
       limitDate: ele.limitDate,
       seller: ele.seller,
+      isActive: ele.isActive,
+      status: ele.status,
       bids: ele.bids,
       imagesUrl: await Promise.all(
         ele.images.map(async (img) => {
