@@ -72,6 +72,8 @@ const listAllAnnouncementService = async ({
       limitDate: ele.limitDate,
       seller: ele.seller,
       bids: ele.bids,
+      isActive: ele.isActive,
+      status: ele.status,
       imagesUrl: await Promise.all(
         ele.images.map(async (img) => {
           return await s3Storage.getFile(img.fileName);
