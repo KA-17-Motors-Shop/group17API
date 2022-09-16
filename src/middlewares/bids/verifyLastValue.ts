@@ -10,9 +10,11 @@ const verifyLastValues = async (
   const { id } = req.params;
   const { value } = req.body;
 
-  const bids = await prisma.bids.findMany({ where: { announcementId: id } });
+  const [bids] = await prisma.bids.findMany({
+    where: { announcementId: id, topBid: true },
+  });
 
-  if (!bids.length) {
+  if (!bids) {
     const announce = await prisma.announcement.findUnique({ where: { id } });
 
     if (value < announce.price) {
@@ -22,19 +24,10 @@ const verifyLastValues = async (
     return next();
   }
 
-  let winner = bids[0];
-  bids.forEach((bid) => {
-    winner = winner.value < bid.value ? bid : winner;
-  });
-
-  if (!winner) {
-    return next();
-  }
-
-  if (value <= winner.value) {
+  if (value <= bids.value) {
     throw new AppError(
       409,
-      `O valor do lance deve ser maior que ${winner.value}`
+      `O valor do lance deve ser maior que ${bids.value}`
     );
   }
 

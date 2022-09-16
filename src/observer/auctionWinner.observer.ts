@@ -15,26 +15,20 @@ const auctionWinnerObserver = async (
     },
   });
   const promises = dataBids.map(async (announcement) => {
-    const bids = await prisma.bids.findMany({
-      where: { announcementId: announcement.id },
+    const [bids] = await prisma.bids.findMany({
+      where: { announcementId: announcement.id, topBid: true },
     });
 
     if (!bids) {
       return false;
     }
 
-    let winner = bids[0];
-    bids.forEach((bid) => {
-      winner = winner.value < bid.value ? bid : winner;
-    });
-
-    if (!winner) {
-      return false;
-    }
-
-    return await prisma.announcement.update({
+    await prisma.announcement.update({
       where: { id: announcement.id },
-      data: { status: "completed", isActive: false, winnerId: winner.userId },
+      data: { status: "completed", isActive: false, winnerId: bids.userId },
+    });
+    return await prisma.bids.deleteMany({
+      where: { announcementId: announcement.id, topBid: false },
     });
   });
   await Promise.all(promises);

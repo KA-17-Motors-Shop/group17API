@@ -119,6 +119,7 @@ model Bids {
 
   value Decimal @db.Decimal(20,2)
   date DateTime @default(now())
+  topBid Boolean @default(true) @map("top_bid")
 
   announcementId String @db.Uuid @map("announcement_id")
   userId String?  @db.Uuid @map("user_id")
