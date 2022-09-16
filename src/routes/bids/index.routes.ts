@@ -16,10 +16,18 @@ import auctionFinishObserver from "../../observer/auctionFinish.observer";
 
 const bidsRouter = Router();
 
-bidsRouter.use(ensureAuth);
-
 bidsRouter.use(auctionFinishObserver);
 bidsRouter.use(auctionWinnerObserver);
+
+bidsRouter.get(
+  "/announcement/:id",
+  verifyIsUuid,
+  verifyIsAvailable,
+  verifyIsAuction,
+  listBidsToAnnouncementController
+);
+
+bidsRouter.use(ensureAuth);
 
 bidsRouter.post(
   "/announcement/:id",
@@ -31,13 +39,6 @@ bidsRouter.post(
   createBidsController
 );
 
-bidsRouter.get(
-  "/announcement/:id",
-  verifyIsUuid,
-  verifyIsAvailable,
-  verifyIsAuction,
-  listBidsToAnnouncementController
-);
 bidsRouter.get("/user", listBidsToUserController);
 
 export default bidsRouter;
