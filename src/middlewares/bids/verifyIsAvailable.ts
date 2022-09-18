@@ -15,7 +15,7 @@ const verifyIsAvailable = async (
     throw new AppError(404, "Não autorizado");
   }
 
-  if (announcement.status !== "in_progress") {
+  if (announcement.status === "stopped") {
     throw new AppError(409, "Anúncio indisponível");
   }
 
