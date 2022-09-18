@@ -30,6 +30,12 @@ enum typeVehicle {
   motocycle = "motocycle",
 }
 
+enum status {
+  in_progress = "in_progress",
+  completed = "completed",
+  stopped = "stopped",
+}
+
 export interface IFilterQueryParams {
   type?: type;
   typeVehicle?: typeVehicle;
@@ -40,4 +46,5 @@ export interface IFilterQueryParams {
   gtrYear?: string;
   ltDataLimit?: string;
   gtDataLimit?: string;
+  status?: status;
 }
