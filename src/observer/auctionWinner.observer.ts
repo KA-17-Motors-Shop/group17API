@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+
 import { prisma } from "../prisma/client";
 
 const auctionWinnerObserver = async (
@@ -27,8 +28,15 @@ const auctionWinnerObserver = async (
       where: { id: announcement.id },
       data: { status: "completed", isActive: false, winnerId: bids.userId },
     });
+    await prisma.purchases.create({
+      data: {
+        announcementId: announcement.id,
+        value: bids.value,
+        userId: bids.userId,
+      },
+    });
     return await prisma.bids.deleteMany({
-      where: { announcementId: announcement.id, topBid: false },
+      where: { announcementId: announcement.id },
     });
   });
   await Promise.all(promises);

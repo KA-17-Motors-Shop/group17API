@@ -64,6 +64,7 @@ announcementRouter.get(
   verifyIsSeller,
   listMyAnnouncementsController
 );
+
 announcementRouter.patch(
   "/:id",
   upload.fields([{ name: "images", maxCount: 5 }]),

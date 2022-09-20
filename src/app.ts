@@ -8,6 +8,7 @@ import announcementRouter from "./routes/announcement/index.routes";
 import bidsRouter from "./routes/bids/index.routes";
 import userRoutes from "./routes/user/index.routes";
 import commentsRouter from "./routes/comments/index.routes";
+import purchasesRouter from "./routes/purchases/index.routes";
 
 const app: Express = express();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/address", addressRouter);
 app.use("/announcement", announcementRouter);
+app.use("/purchases", purchasesRouter);
 app.use("/bids", bidsRouter);
 app.use("/comment", commentsRouter);
 
