@@ -6,6 +6,8 @@ const createBidService = async (value: number, id: string, userId: string) => {
     data: { topBid: false },
   });
 
+  await prisma.bids.deleteMany({ where: { announcementId: id, userId } });
+
   await prisma.bids.create({
     data: { value, announcementId: id, userId, date: new Date() },
   });
