@@ -3,7 +3,7 @@ import { Router } from "express";
 import activateUserController from "../../controllers/user/activateUser.controller";
 import createUserController from "../../controllers/user/createUser.controller";
 import deleteUserController from "../../controllers/user/deleteUser.controller";
-import listAllUsersController from "../../controllers/user/listAllUsers.controller";
+import listSellerProfileController from "../../controllers/user/listSellerProfile.controller";
 import listUserProfileController from "../../controllers/user/listUserProfile.controller";
 import userLoginController from "../../controllers/user/loginUser.controller";
 import recoveryPasswordController from "../../controllers/user/recoveryPassword.controller";
@@ -60,7 +60,7 @@ userRoutes.use(ensureAuth);
 
 userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
-userRoutes.get("/", listAllUsersController);
+userRoutes.get("/:id", listSellerProfileController);
 userRoutes.get("/me", listUserProfileController);
 
 userRoutes.patch(

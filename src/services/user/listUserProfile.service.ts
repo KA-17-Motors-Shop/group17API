@@ -1,6 +1,21 @@
 import { prisma } from "../../prisma/client";
 
-const listUserProfilteService = async (userId: string) => {
+const listUserProfilteService = async (
+  userId: string,
+  seller: boolean = false
+) => {
+  if (seller) {
+    return await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        isSeller: true,
+      },
+    });
+  }
+
   return await prisma.user.findUnique({
     where: { id: userId },
     select: {
