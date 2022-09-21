@@ -5,10 +5,24 @@ import S3Storage from "../../utils/s3Storage";
 
 const listAnnouncementsBySellerService = async (
   sellerId: string,
-  { type, status }: IFilterQueryParams
+  { type, status }: IFilterQueryParams,
+  seller: boolean = false
 ) => {
+  let where: any = {
+    sellerId,
+    type: { equals: type },
+    status: { equals: status },
+  };
+
+  if (seller) {
+    where = {
+      ...where,
+      isActive: true,
+    };
+  }
+
   const announcements = await prisma.announcement.findMany({
-    where: { sellerId, type: { equals: type }, status: { equals: status } },
+    where,
     select: {
       id: true,
       title: true,

@@ -7,7 +7,8 @@ const listAllAnnouncementBySellerIdController = async (
 ) => {
   const annoncements = await listAnnouncementsBySellerService(
     req.params.id,
-    req.query
+    req.query,
+    true
   );
 
   const data = annoncements.map((ele) => {
