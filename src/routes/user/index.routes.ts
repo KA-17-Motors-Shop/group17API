@@ -29,7 +29,7 @@ import {
   updatePasswordUserSchema,
 } from "../../validations/user/updatePassword.validation";
 import updateUserSchema from "../../validations/user/updateUser.validation";
-import verifyIsUuid from "src/middlewares/verifyIsUuid.middleware";
+import verifyIsUuid from "../../middlewares/verifyIsUuid.middleware";
 
 const userRoutes = Router();
 
