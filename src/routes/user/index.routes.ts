@@ -29,6 +29,7 @@ import {
   updatePasswordUserSchema,
 } from "../../validations/user/updatePassword.validation";
 import updateUserSchema from "../../validations/user/updateUser.validation";
+import verifyIsUuid from "src/middlewares/verifyIsUuid.middleware";
 
 const userRoutes = Router();
 
@@ -60,7 +61,7 @@ userRoutes.use(ensureAuth);
 
 userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
-userRoutes.get("/:id", listSellerProfileController);
+userRoutes.get("/seller/:id", verifyIsUuid, listSellerProfileController);
 userRoutes.get("/me", listUserProfileController);
 
 userRoutes.patch(
