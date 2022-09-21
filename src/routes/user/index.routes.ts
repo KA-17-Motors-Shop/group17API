@@ -57,11 +57,12 @@ userRoutes.patch(
   updatePasswordController
 );
 
+userRoutes.get("/seller/:id", verifyIsUuid, listSellerProfileController);
+
 userRoutes.use(ensureAuth);
 
 userRoutes.get("/recovery/code", recoveryNewCodeActivateController);
 
-userRoutes.get("/seller/:id", verifyIsUuid, listSellerProfileController);
 userRoutes.get("/me", listUserProfileController);
 
 userRoutes.patch(
