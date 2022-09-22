@@ -5,6 +5,7 @@ import deleteAddressController from "../../controllers/address/deleteAddress.con
 import listMyAddressController from "../../controllers/address/listMyAddress.controller";
 import updateAddressController from "../../controllers/address/updateAddress.controller";
 import changeDefaultAddressController from "../../controllers/address/cahngeDefaultAddress.controller";
+import getAddressByIdController from "../../controllers/address/getAddressById.controller";
 
 import zipCodeExists from "../../middlewares/address/zipCodeExists.middleware";
 import ensureAuth from "../../middlewares/ensureAuth.middleware";
@@ -15,7 +16,6 @@ import { expressYupMiddleware } from "express-yup-middleware";
 
 import createAddressSchema from "../../validations/address/createAddress.validations";
 import updateAddressSchema from "../../validations/address/updateAddress.validations";
-import getAddressByIdController from "src/controllers/address/getAddressById.controller";
 
 const addressRouter = Router();
 
