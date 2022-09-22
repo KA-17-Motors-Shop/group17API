@@ -15,6 +15,7 @@ import { expressYupMiddleware } from "express-yup-middleware";
 
 import createAddressSchema from "../../validations/address/createAddress.validations";
 import updateAddressSchema from "../../validations/address/updateAddress.validations";
+import getAddressByIdController from "src/controllers/address/getAddressById.controller";
 
 const addressRouter = Router();
 
@@ -30,6 +31,7 @@ addressRouter.post(
 );
 
 addressRouter.get("", listMyAddressController);
+addressRouter.get("/:id", verifyIsUuid, getAddressByIdController);
 
 addressRouter.patch(
   "/:id",
