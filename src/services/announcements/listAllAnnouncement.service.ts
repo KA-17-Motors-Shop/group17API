@@ -45,7 +45,7 @@ const listAllAnnouncementService = async ({
       typeVehicle: true,
       publishedData: true,
       limitDate: true,
-      seller: { select: { name: true, id: true } },
+      seller: { select: { name: true, id: true, avatarColor: true } },
       bids: true,
       isActive: true,
       status: true,

@@ -28,6 +28,7 @@ const listUserProfilteService = async (
       description: true,
       isSeller: true,
       isActivate: true,
+      avatarColor: true,
     },
   });
 };

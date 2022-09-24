@@ -5,7 +5,7 @@ const listCommentToAnnounceService = async (id: string) => {
     where: { announcementId: id },
     select: {
       announcementId: true,
-      user: { select: { id: true, name: true } },
+      user: { select: { id: true, name: true, avatarColor: true } },
       comment: true,
       id: true,
       publishedData: true,

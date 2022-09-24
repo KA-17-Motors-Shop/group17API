@@ -7,7 +7,7 @@ const findPurchaseAnnounceService = async (id: string) => {
       id: true,
       date: true,
       value: true,
-      user: { select: { id: true, name: true } },
+      user: { select: { id: true, name: true, avatarColor: true } },
     },
   });
 };

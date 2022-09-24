@@ -20,6 +20,7 @@ model User {
   birhtDate DateTime @db.Timestamptz(6) @map("birht_date")
   description String? @db.VarChar 
   password String @db.VarChar
+  avatarColor String @db.VarChar @default("#4529e6")
 
   isActivate Boolean @db.Boolean @default(false) @map("is_activate")
   accessToken String? @db.VarChar @map("access_token")

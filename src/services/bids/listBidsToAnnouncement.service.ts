@@ -9,7 +9,7 @@ const listBidsToAnnouncementService = async (id: string) => {
       id: true,
       topBid: true,
       value: true,
-      user: { select: { id: true, name: true } },
+      user: { select: { id: true, name: true, avatarColor: true } },
     },
   });
 };

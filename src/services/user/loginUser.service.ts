@@ -24,7 +24,7 @@ const loginUserService = async ({ email, password }: ILogin) => {
     expiresIn: "1d",
   });
 
-  return { token, userId: user.id };
+  return { token, userId: user.id, avatarColor: user.avatarColor };
 };
 
 export default loginUserService;

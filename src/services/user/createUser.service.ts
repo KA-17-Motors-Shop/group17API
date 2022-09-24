@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import { renderFile } from "ejs";
 import path from "path";
+import randomColor from "randomcolor";
 import { IEmailRequest } from "../../interfaces/emails";
 import { ICreateUser } from "../../interfaces/user";
 import { prisma } from "../../prisma/client";
@@ -18,6 +19,10 @@ const createUserService = async ({
 }: ICreateUser) => {
   const hashPassword = await hash(password, 10);
 
+  const avatarColor = randomColor({
+    luminosity: "dark",
+  });
+
   const accessToken = (Math.random() + 10).toString(36).substring(3);
   const newUser = await prisma.user.create({
     data: {
@@ -30,6 +35,7 @@ const createUserService = async ({
       password: hashPassword,
       isSeller,
       accessToken,
+      avatarColor,
     },
     select: {
       id: true,
