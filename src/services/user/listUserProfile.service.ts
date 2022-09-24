@@ -12,6 +12,7 @@ const listUserProfilteService = async (
         name: true,
         description: true,
         isSeller: true,
+        avatarColor: true,
       },
     });
   }
