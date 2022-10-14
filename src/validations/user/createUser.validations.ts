@@ -26,10 +26,10 @@ const createUserSchema = {
             .matches(/^[0-9]{5}-[0-9]{3}$/, "O cep é inválido"),
           state: string()
             .required("Estado é obrigatório")
-            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "São aceitos somente letras"),
           city: string()
             .required("Cidade é obrigatório")
-            .matches(/^([a-zA-Z]+)$/, "São aceitos somente letras"),
+            .matches(/[a-zA-Z\u00C0-\u00FF ]+/i, "São aceitos somente letras"),
           street: string().required("A rua é obrigatória"),
           number: number()
             .typeError("São aceitos somente números")
